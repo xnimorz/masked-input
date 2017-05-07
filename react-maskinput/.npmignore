@@ -1,0 +1,5 @@
+.idea
+.vscode
+examples/bundle.js
+node_modules
+npm-debug.js

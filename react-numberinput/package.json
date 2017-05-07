@@ -1,0 +1,36 @@
+{
+  "name": "react-numberinput",
+  "version": "0.1.0",
+  "description": "React Number input component. Allow to input formatted number values. Also you can use this component as example of inputCore component with reformat user function",
+  "main": "./lib/numberInput.js",
+  "scripts": {
+      "build": "babel ./src --out-dir ./lib"    
+  },
+  "keywords": [
+    "react",
+    "mask",
+    "mask-input",
+    "input",
+    "number-formatter",
+    "number-input",
+    "number-format"
+  ],
+  "author": "Nikita Mostovoy <nik.mostovoy@gmail.com> (http://xnim.ru)",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">15.4.1",
+    "react-dom": ">15.4.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-transform-react-jsx": "^6.23.0",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-stage-0": "^6.22.0",    
+    "webpack": "^2.3.2"
+  },
+  "dependencies": {
+      "react-maskinput": "^0.1.0"
+  }
+}
