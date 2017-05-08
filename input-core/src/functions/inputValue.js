@@ -26,7 +26,7 @@ export default function inputValue({data, input = '', selection, mask, maskChar,
             if (pastedValuesStack && pastedValuesStack[0] === maskPart.char) {
                 pastedIndex++;
             } else {
-                if (item && item.char === maskPart.char || input) {
+                if (item && (item.char === maskPart.char || item.type !== charTypes.USER) || input) {
                     valueIndex++;
                 }
             }

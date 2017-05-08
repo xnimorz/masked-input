@@ -154,6 +154,9 @@ class InputCore {
     removePreviosOrSelected() {
         if (this.selection.start === this.selection.end) {
             this.selection.start = this.selection.end - 1;
+            if (this.selection.start < 0) {
+                this.selection.start = 0;
+            }
         }
 
         this.input('');
@@ -161,7 +164,7 @@ class InputCore {
 
     removeNextOrSelected() {
         if (this.selection.start === this.selection.end) {
-            this.selection.end++;
+            this.selection.end++;            
         }
 
         this.input('');

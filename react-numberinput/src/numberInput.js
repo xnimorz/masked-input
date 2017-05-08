@@ -30,8 +30,8 @@ class NumberInput extends Component {
         const inputValue = input.replace(/\D/g, '');
         const oldLength = value.length;
 
-        value = value.slice(0, newSelection.start) + inputValue + value.slice(newSelection.start, value.length);        
-        value = value.replace(/\s/g, '').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, (text) => `${text} `);
+        value = value.slice(0, newSelection.start) + inputValue + value.slice(newSelection.start, value.length);                
+        value = value.replace(/\s/g, '').replace(/^0+/, '').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, (text) => `${text} `);
 
         let index = newSelection.start;
         if (inputValue) {

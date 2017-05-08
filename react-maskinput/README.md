@@ -213,6 +213,8 @@ Let's see what's doing each of props:
 
 # Changelog
 
+0.1.1 Fix bug with removing static symbol
+
 0.1.0 First publish
 
 # TODO
