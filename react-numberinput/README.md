@@ -48,6 +48,8 @@ function maskChar, maskString, mask will be ignored.
 
 # Changelog
 
+0.1.2 Add android support, remove transform-react-jsx from mask-input build
+
 0.1.1 Remove "0" on start
 
 0.1.0 First publish

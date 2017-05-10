@@ -136,6 +136,12 @@ class MaskInput extends Component {
         }
         const selection = this.input.getSelection();
         this.refs.input.setSelectionRange(selection.start, selection.end);
+        const raf = window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            ((fn) => setTimeout(fn, 0));
+        // For android
+        raf(() => this.refs.input.setSelectionRange(selection.start, selection.end));
     };
 
     getSelection() {

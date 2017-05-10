@@ -143,6 +143,13 @@ class MaskInput {
         }
         const selection = this.input.getSelection();
         this.element.setSelectionRange(selection.start, selection.end);
+
+        const raf = window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            ((fn) => setTimeout(fn, 0));
+        // For android
+        raf(() => this.element.setSelectionRange(selection.start, selection.end));
     };
 
     getSelection() {
