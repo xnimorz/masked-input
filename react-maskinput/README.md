@@ -81,6 +81,34 @@ class DateInput extends Component {
 render(someElement, <DateInput />);
 ```
 
+If you need to get input's HtmlElement, you could use `getReference` prop:
+
+```javascript
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+import MaskInput from 'react-maskinput';
+
+class SomeTopLevelComponent extends Component {    
+    getInputRef = (el) => {
+        // Now we can work with HtmlElement
+        this.input = el;
+    }    
+
+    render() {
+        return (
+            <MaskInput                                 
+                getReference={this.getInputRef}
+                alwaysShowMask
+                maskChar='_'
+                mask='0000-0000-0000-0000'   
+            />
+        );
+    }
+}
+
+render(someElement, <DateInput />);
+```
+
 Custom formatting function. For custom formatting function you can see react-numberinput component:
 
 ```javascript
@@ -212,6 +240,8 @@ Let's see what's doing each of props:
 5) Submit a pull request 
 
 # Changelog
+
+0.1.3 Add onFocus and onBlur callbacks. Add getReference function to examples
 
 0.1.2 Add android support, remove transform-react-jsx from mask-input build
 

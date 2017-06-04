@@ -223,10 +223,12 @@ class MaskInput extends Component {
 
     onFocus = () => {
         this.canSetSelection = true;
+        this.props.onFocus && this.props.onFocus(e);
     };
 
-    onBlur = () => {
+    onBlur = (e) => {
         this.canSetSelection = false;
+        this.props.onBlur && this.props.onBlur(e);        
     };
 
     keyPressPropName() {

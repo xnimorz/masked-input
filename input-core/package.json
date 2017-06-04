@@ -17,7 +17,7 @@
   ],
   "author": "Nikita Mostovoy <nik.mostovoy@gmail.com> (http://xnim.ru)",
   "license": "MIT",
-  "devDependencies": {    
+  "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",

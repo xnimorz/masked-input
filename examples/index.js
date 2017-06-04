@@ -359,6 +359,28 @@ class DateInput extends Component {
                     </Code>
                 </div>
 
+                <div className='gap'>
+                    Get HtmlElement input:                    
+                    <MaskInput
+                        getReference={(el) => this.input = el}                                                
+                        maskChar='_'   
+                        alwaysShowMask                        
+                        mask='0000-0000-0000'                         
+                    /> 
+                    <Code>
+                            {`
+<MaskInput
+    getReference={(el) => this.input = el} /* Now in this.input stored input HtmlElement */    
+    alwaysShowMask 
+    maskChar='_'   
+    mask='0000-0000-0000'                    
+/>                             
+                            `}
+                    </Code>
+                </div>
+
+                
+
                 <h2><a href='https://github.com/xnimorz/masked-input/tree/master/react-numberinput'><span className='github'></span>react-numberinput</a></h2>
                 A react component, that allows input formatted numbers:
 

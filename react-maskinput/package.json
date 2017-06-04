@@ -1,10 +1,10 @@
 {
   "name": "react-maskinput",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "React mask input component. Allow to input formatted values with fixed length or apply custom formtatting function, to format values with any length",
   "main": "./lib/maskInput.js",
   "scripts": {
-      "build": "babel ./src --out-dir ./lib"    
+    "build": "babel ./src --out-dir ./lib"
   },
   "keywords": [
     "react",
@@ -21,7 +21,7 @@
   "license": "MIT",
   "peerDependencies": {
     "react": ">15.4.1",
-      "react-dom": ">15.4.1"
+    "react-dom": ">15.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -29,10 +29,10 @@
     "babel-loader": "^6.4.1",
     "babel-plugin-transform-react-jsx": "^6.23.0",
     "babel-preset-es2015": "^6.24.0",
-    "babel-preset-stage-0": "^6.22.0",    
+    "babel-preset-stage-0": "^6.22.0",
     "webpack": "^2.3.2"
   },
   "dependencies": {
-      "input-core": "^0.1.1"
+    "input-core": "^0.1.1"
   }
 }

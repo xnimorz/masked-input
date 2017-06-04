@@ -2,7 +2,7 @@
 
 This project allow to create mask input easily.
 In real world you often need to create input for credit card, phone number or birthday date etc. 
-Each of this usecases require to input value with some formatting (for example 0000-0000-000-0000 for credit card) and with static length. This project is going to help you.
+Each of this usecases require to input value with some formatting (for example 0000-0000-000-0000 for credit card) and with static length. This project could help you.
 
 Watch demo: http://xnimorz.github.io/masked-input/
 
@@ -78,6 +78,35 @@ class DateInput extends Component {
 
 render(someElement, <DateInput />);
 ```
+
+If you need to get input's HtmlElement, you could use `getReference` prop:
+
+```javascript
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+import MaskInput from 'react-maskinput';
+
+class SomeTopLevelComponent extends Component {    
+    getInputRef = (el) => {
+        // Now we can work with HtmlElement
+        this.input = el;
+    }    
+
+    render() {
+        return (
+            <MaskInput                                 
+                getReference={this.getInputRef}
+                alwaysShowMask
+                maskChar='_'
+                mask='0000-0000-0000-0000'   
+            />
+        );
+    }
+}
+
+render(someElement, <DateInput />);
+```
+
 
 Custom formatting function. For custom formatting function you can see react-numberinput component:
 
@@ -274,6 +303,8 @@ npm install --save input-core
 5) Submit a pull request 
 
 # Changelog
+
+0.1.3 Add onFocus and onBlur callbacks. Add getReference function to examples
 
 0.1.2 Add android support, remove transform-react-jsx from mask-input build
 
