@@ -67,6 +67,16 @@ class MaskInput extends Component {
         this.state = {
             showMask: props.alwaysShowMask || props.showMask,
         }            
+
+        this.applyValue = (value) => {
+            this.input.setValue(value);
+            
+            if (this.state.showMask && (this.canSetSelection || this.props.alwaysShowMask)) {            
+                this.refs.input.value = this.input.getMaskedValue();
+                return;
+            }
+            this.refs.input.value = this.input.getVisibleValue();        
+        }   
     }
 
     componentWillReceiveProps(nextProps) {            
@@ -120,7 +130,7 @@ class MaskInput extends Component {
     componentDidMount() {
         this.showValue();
         this.props.getReference && this.props.getReference(this.refs.input);        
-    }      
+    }       
 
     showValue = () => {        
         if (this.state.showMask && (this.canSetSelection || this.props.alwaysShowMask)) {            
@@ -221,7 +231,7 @@ class MaskInput extends Component {
         }
     };
 
-    onFocus = () => {
+    onFocus = (e) => {
         this.canSetSelection = true;
         this.props.onFocus && this.props.onFocus(e);
     };

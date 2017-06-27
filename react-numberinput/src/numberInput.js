@@ -31,7 +31,7 @@ class NumberInput extends Component {
         const oldLength = value.length;
 
         value = value.slice(0, newSelection.start) + inputValue + value.slice(newSelection.start, value.length);                
-        value = value.replace(/\s/g, '').replace(/^0+/, '').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, (text) => `${text} `);
+        value = value.replace(/\s/g, '').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, (text) => `${text} `);
 
         let index = newSelection.start;
         if (inputValue) {
@@ -45,11 +45,23 @@ class NumberInput extends Component {
             visibleValue: value,
             selection: newSelection,
         };
+    }    
+
+    handleLeadingZeros = (e) => {
+        const { onBlur } = this.props;         
+        
+        this.maskInput.applyValue(e.target.value.replace(/^[0 ]+$/, '0'));
+
+        this.props.onBlur && this.props.onBlur(e);
     }
 
-    render() {
+    getMaskInputRef = (el) => {
+        this.maskInput = el;
+    }
+
+    render() {        
         return (
-            <MaskInput {...this.props} reformat={this.reformat} />
+            <MaskInput {...this.props} reformat={this.reformat} onBlur={this.handleLeadingZeros} ref={this.getMaskInputRef} />
         );
     }
 }

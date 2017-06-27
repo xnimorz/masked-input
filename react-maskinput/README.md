@@ -241,6 +241,8 @@ Let's see what's doing each of props:
 
 # Changelog
 
+0.1.5 Add applyValue method in case you need apply new value directly (by ref)
+
 0.1.3 Add onFocus and onBlur callbacks. Add getReference function to examples
 
 0.1.2 Add android support, remove transform-react-jsx from mask-input build

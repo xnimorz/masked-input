@@ -48,6 +48,8 @@ function maskChar, maskString, mask will be ignored.
 
 # Changelog
 
+0.1.5 Do not remove leading zeros while input is editing
+
 0.1.3 Add onFocus and onBlur callbacks. Add getReference function to examples
 
 0.1.2 Add android support, remove transform-react-jsx from mask-input build
