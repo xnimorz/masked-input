@@ -31,9 +31,15 @@ class NumberInput extends Component {
         const oldLength = value.length;
 
         value = value.slice(0, newSelection.start) + inputValue + value.slice(newSelection.start, value.length);                
-        value = value.replace(/\s/g, '').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, (text) => `${text} `);
+        const spaces = value.match(/\s/g) || [];        
+        let oldSpacesCount = spaces.length;
+        let newSpacesCount = 0;        
+        value = value.replace(/\s/g, '').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, (text) => {
+            newSpacesCount++;
+            return `${text} `;
+        });
 
-        let index = newSelection.start;
+        let index = newSelection.start + Math.min(0, newSpacesCount - oldSpacesCount);
         if (inputValue) {
             index = Math.max(0, value.length - oldLength + index);
         }
