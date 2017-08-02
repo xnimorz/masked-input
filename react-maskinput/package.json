@@ -1,6 +1,6 @@
 {
   "name": "react-maskinput",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "React mask input component. Allow to input formatted values with fixed length or apply custom formtatting function, to format values with any length",
   "main": "./lib/maskInput.js",
   "scripts": {

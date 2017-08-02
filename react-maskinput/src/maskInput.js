@@ -262,6 +262,7 @@ class MaskInput extends Component {
             alwaysShowMask,
             customMaskFormat,
             maskString,
+            reformat,
 
             /* ignore values */
             value,
