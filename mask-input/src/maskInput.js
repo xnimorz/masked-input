@@ -210,7 +210,7 @@ class MaskInput {
 
         e.preventDefault();
         this.getSelection();
-        this.input.input(e.key || e.data);
+        this.input.input(e.key || e.data || String.fromCharCode(e.which));
         this.showValue();
         this.setSelection();
         this.props.onChange && this.props.onChange(e);

@@ -472,7 +472,7 @@ render() {
                 </Code>
 
                 <div className='gap'>
-                    For me on <a href='https://github.com/xnimorz/masked-input'>github</a>
+                    Fork me on <a href='https://github.com/xnimorz/masked-input'>github</a>
                 </div>
                 <div className='gap'></div>
             </div>        

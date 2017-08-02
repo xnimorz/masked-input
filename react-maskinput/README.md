@@ -241,6 +241,8 @@ Let's see what's doing each of props:
 
 # Changelog
 
+0.1.6 Add e.which to input event callback to support iOS@9.4
+
 0.1.5 Add applyValue method in case you need apply new value directly (by ref)
 
 0.1.3 Add onFocus and onBlur callbacks. Add getReference function to examples
