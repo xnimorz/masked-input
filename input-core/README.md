@@ -26,6 +26,8 @@ npm install --save input-core
 
 # Changelog
 
+0.1.2 Fix bug with uncorrect removing symbols range
+
 0.1.1 Fix bug with removing static symbol
 
 0.1.0 First publish

@@ -2,7 +2,7 @@ import charTypes from '../constants/charTypesEnum';
 
 export default function removeSelectedRange({value, selection, reformat, mask, maskChar, maskString}) {    
     const copyMaskChar = (count) => {
-        let res = [];
+        const res = [];
         for (let i = 0; i < count; i++) {
             res.push({
                 char: maskChar,
@@ -18,7 +18,14 @@ export default function removeSelectedRange({value, selection, reformat, mask, m
         }
         
         if (maskString) {
-            return maskString.slice(selection.start, selection.end);
+            const res = [];
+            for (let i = selection.start; i < selection.end; i++) {
+                res.push({
+                    char: maskString[i],
+                    type: charTypes.MASK,
+                })
+            }
+            return res;            
         }
 
         return copyMaskChar(selection.end - selection.start);
