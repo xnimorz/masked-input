@@ -241,6 +241,8 @@ Let's see what's doing each of props:
 
 # Changelog
 
+0.1.8 Use input-core@0.1.2
+
 0.1.7 Remove reformat prop from the input element
 
 0.1.6 Add e.which to input event callback to support iOS@9.4

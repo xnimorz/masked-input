@@ -48,6 +48,8 @@ function maskChar, maskString, mask will be ignored.
 
 # Changelog
 
+0.1.9 Use input-core@0.1.2, react-maskinput@0.1.8
+
 0.1.8 Add iOS@9 support
 
 0.1.7 Fix minor bug with backspace
