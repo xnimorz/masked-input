@@ -46,6 +46,8 @@ VanilaJs maskInput support all props, that support react-maskinput: https://gith
 
 # Changelog
 
+0.1.4 use input-core@0.1.2
+
 0.1.3 Add e.which to input event callback to support iOS@9.4
 
 0.1.2 Add android support, remove transform-react-jsx from mask-input build
