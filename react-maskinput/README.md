@@ -235,12 +235,14 @@ List of specific react-maskinput props:
 Let's see what's doing each of props:
 
 `mask`: String. Format:
+```
    0 — any number 0-9
    * — any symbol
    a — A-Z, a-z
    q — "q" letter, 2 — "2" letter etc.
    \a — "a" letter 
  default is undefined 
+ ```
 
  [function] `reformat`: user function, if you want use custom reformat logic. It's userfull for numeric inputs, decimal numbers etc. 
  If `reformat` defined `mask` will be ignored. Reformat function must receive object with several fields:
