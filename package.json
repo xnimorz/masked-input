@@ -5,7 +5,12 @@
   "main": "index.js",
   "scripts": {
     "build-example": "webpack --config webpack.examples.config.js",
-    "build-example-watch": "webpack --config webpack.examples.config.js --watch"
+    "build-example-watch": "webpack --config webpack.examples.config.js --watch",
+    "hard-rebuild-all": "cd input-core; rm -rf node_modules package-lock.json; npm install; npm run build; cd ../react-maskinput; rm -rf node_modules package-lock.json; npm install; npm run build; cd ../react-numberinput; rm -rf node_modules package-lock.json; npm install; npm run build; cd ../mask-input; rm -rf node_modules package-lock.json; npm install; npm run build; cd ../; rm -rf node_modules package-lock.json; npm install; npm run build-example"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xnimorz/masked-input.git"
   },
   "keywords": [
     "react",
@@ -27,10 +32,11 @@
     "babel-preset-stage-0": "^6.22.0",
     "input-core": "file:input-core",
     "mask-input": "file:mask-input",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "react-maskinput": "file:react-maskinput",
     "react-numberinput": "file:react-numberinput",
+    "styled-components": "^2.2.4",
     "subscribe-event": "^1.0.0",
     "webpack": "^2.3.2"
   }

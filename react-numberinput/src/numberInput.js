@@ -19,6 +19,11 @@ function removeSelectedRange(value, selection) {
     return value;
 }
 
+/**
+ * Component that allow to format only numbers. (5 000, 123 456 789, etc.)
+ * This component work on top of react-maskinput and define custom formatting function called `reformat`.
+ * Also you can use this component as example to create you own components based on react-maskinput.
+ */
 class NumberInput extends Component {
     reformat = ({data, input = '', selection}) => {
         const newSelection = {

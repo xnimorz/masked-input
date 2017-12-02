@@ -1,22 +1,43 @@
 # Set of input tools for formatting
 
-This project allow to create mask input easily.
+This project allow to create masked inputs easily.
 In real world you often need to create input for credit card, phone number or birthday date etc. 
-Each of this usecases require to input value with some formatting (for example 0000-0000-000-0000 for credit card) and with static length. This project could help you.
+Each of this usecases require to input value with some formatting (for example 0000-0000-000-0000 for credit card). This project could help you.
 
 Watch demo: http://xnimorz.github.io/masked-input/
 
 # Components
 
+* [react-maskinput](https://github.com/xnimorz/masked-input#react-maskinput) — react masked input,
+* [react-numberinput](https://github.com/xnimorz/masked-input#react-numberinput) — react numeric input,
+* [input-core](https://github.com/xnimorz/masked-input#input-core) — the core module on top of which you can build any custom components,
+* [mask-input](https://github.com/xnimorz/masked-input#mask-input) — vanilla masked input.
+
+React masked input and numeric input were tested on desktop and mobile browsers:
+
+* Desktop browsers: 
+- [x] Safari >= 9
+- [x] Google Chrome
+- [x] EDGE, IE11
+- [x] Mozilla Firefox
+- [x] Opera, Yandex.browser etc.
+
+* Mobile browsers:
+- [x] Android Chrome
+- [x] Safari IOS  >= 9
+
 ## react-maskinput
 
-A react component, that build on top of input-core. Provide interface for creating custom formatting inputs.
-If you work on project without react, you may use mask-input.
+A react component provide interface for creating inputs with custom mask. This component built on top of input-core.
 
 ### Installation
 
 ```
 npm install --save react-maskinput
+```
+or 
+```
+yarn add react-maskinput
 ```
 
 ### Usage
@@ -108,7 +129,8 @@ render(someElement, <DateInput />);
 ```
 
 
-Custom formatting function. For custom formatting function you can see react-numberinput component:
+Custom formatting function. You can create custom formatting function by setting `reformat` prop. 
+As an example, you can see react-numberinput component:
 
 ```javascript
 import React, { Component } from 'react';
@@ -171,21 +193,45 @@ class NumberInput extends Component {
 export default NumberInput;
 ```
 
+### Usage with styled-components
+
+react-maskinput, react-numberinput pass props to `input` element directly. 
+You can set up different input element properties: class, data-attributes, etc. 
+There components works well with another libraries, CSS-in-JS solutions, such as styled-components:
+```javascript
+import React, { Component } from 'react';
+import MaskInput from 'react-maskinput';
+import styled from 'styled-components';
+
+const MaskedInput = styled(MaskInput)`
+    border-radius: 10px;
+    border-color: rgb(219,112,147);
+`;
+
+render(    
+    <MaskedInput
+        alwaysShowMask
+        maskChar='_'
+        mask='0000-0000-0000-0000'        
+    />
+);
+```
+
 ### Props
 
 List of specific react-maskinput props:
 
-* mask,
-* reformat,
-* maskFormat,
-* maskChar,
-* maskString,
-* showMask,
-* alwaysShowMask,
-* getReference,
-* onChange
+* mask [String],
+* reformat [Function],
+* maskFormat [Array],
+* maskChar [Empty string or String with one char],
+* maskString [String],
+* showMask [Boolean],
+* alwaysShowMask [Boolean],
+* getReference [Function],
+* onChange [Function]
 
-Important! All other props'll passed to input directly.
+**Important!** All other props'll passed to `input` element directly. So you can set up class name, data attributes, etc.
 
 Let's see what's doing each of props:
 
@@ -198,13 +244,13 @@ Let's see what's doing each of props:
  default is undefined 
 
  [function] `reformat`: user function, if you want use custom reformat logic. It's userfull for numeric inputs, decimal numbers etc. 
- If reformat defined mask'll be ignored. Reformat function must receive object with several fields:
+ If `reformat` defined `mask` will be ignored. Reformat function must receive object with several fields:
  ```javascript
  function reformat({data: data, selection: {start, end}, input}) {
-     // realisation
+     // realization
  
      return {
-         [any] value: // value that store and calling in input core funcitons (such as reformat). value may have any format,
+         [any] value: // value that stored and called in input core functions (such as reformat). Field may have any format,
          [String] visibleValue: // value that displayed to user in input if showMask is false,
          [String] maskedValue: // value that  displayed to user in input if showMask is true,
          [{[integer] start, [integer] end}] selection: {start, end} — // new selection range
@@ -212,7 +258,7 @@ Let's see what's doing each of props:
  }
  ```
  
- if `reformat` and `mask` is undefined, input allow to enter any values. 
+ If `reformat` and `mask` is undefined, input allow to enter any values. 
  
  You can define custom mask by passing `maskFormat`. This prop must be an array,
  each object in array have several fields:
@@ -221,23 +267,27 @@ Let's see what's doing each of props:
  `type`: special  
 
  `maskChar`: Character to cover unfilled editable parts of mask. Default value is ''.
- `maskString`: String to cover unfilled editable parts of mask. Default is undefined. If maskString define maskChar ignored.
+ `maskString`: String to cover unfilled editable parts of mask. Default is undefined. If `maskString` define `maskChar`  ignored.
 
  `showMask`: show mask in input. It's possible only if mask have not cyclic. Default value = false
  `alwaysShowMask`: show mask when input inactive
 
  `Callbacks`:
-   `onChange`(event). event is react-event. If you want access to input value, you may use: `event.target.value`     
-   `getReference`: callback to get native input ref
+   `onChange`(event). Event is synthetic react-event. If you want access to input value, you may use: `event.target.value`     
+   `getReference`: Callback to get native input ref
 
 ## react-numberinput
 
-Component that allow to format only numbers.
+Component that allow to format only numbers. (5 000, 123 456 789, etc.)
 
 ### Installation
 
 ```
 npm install --save react-numberinput
+```
+or
+```
+yarn add react-numberinput
 ```
 
 This component work on top of react-maskinput and define custom formatting function called `reformat`. Also you can use this component as example to create you own components based on react-maskinput.
@@ -253,10 +303,27 @@ ReactDOM.render(
 )
 ```
 
+You also can set up different input element properties, such as class, data-attributes, etc. 
+This component works well with another libraries, styled-components as example:
+```javascript
+import React, { Component } from 'react';
+import MaskInput from 'react-maskinput';
+import NumberInput from 'react-numberinput';
+
+const StyledNumberInput = styled(NumberInput)`
+    border-radius: 10px;
+    border-color: rgb(219,112,147);
+`;
+
+render(    
+    <StyledNumberInput />
+);
+```
+
 ### Props
 
-All of passed props is applying to maskInput directly. See maskInput for more information. Note if you using reformat 
-function maskChar, maskString, mask will be ignored.
+All of passed props is applying to `react-maskedinput` directly. See `react-maskinput` for more information. Note if you using `reformat` 
+function `maskChar`, `maskString`, `mask` will be ignored.
 
 ## mask-input
 
@@ -266,6 +333,10 @@ If you use vanila js, without react, you can install mask-input. This component 
 
 ```
 npm install --save mask-input
+```
+or 
+```
+yarn add mask-input
 ```
 
 ### Usage
@@ -288,10 +359,14 @@ VanilaJs maskInput support all props, that support react-maskinput.
 
 ## input-core
 
-If you want to use only core, without input decorators:
+If you want to use only core without input decorators:
 
 ```
 npm install --save input-core
+```
+or
+```
+yarn add input-core
 ```
 
 # Contributing
@@ -302,7 +377,18 @@ npm install --save input-core
 4) Push to the branch: `git push origin my-new-feature`
 5) Submit a pull request 
 
+# Existing problems with react input components
+
+- [] Android browser <= v4 — there are some artifacts with copy & paste
+- [] Mobile IE — in this browser higly recommended turn off masked input component. After typing any characters input will lose focus.
+
 # Changelog
+
+1.0.0 several changes:
+* From this moment all of tools will have similar version
+* Added examples using components with another libs, such as `styled-components`
+* Improved demo page
+* Improved readme
 
 0.1.3 Add onFocus and onBlur callbacks. Add getReference function to examples
 

@@ -47,87 +47,7 @@ class MaskInput {
         this.element = element;
         this.showValue();
         this.subscribe();
-    }
-
-    setProps({
-        mask,
-        value,
-        reformat,
-        maskString,
-        maskChar,        
-        maskFormat,
-        showMask,
-        alwaysShowMask,
-        onChange,
-    }) {
-        let updated = false;
-
-        if (this.props.onChange !== onChange) {
-            this.props.onChange = onChange;
-        } 
-
-        if (this.props.alwaysShowMask !== alwaysShowMask || this.props.showMask !== showMask) {
-            this.showMask = alwaysShowMask || showMask;
-
-            this.props.alwaysShowMask = alwaysShowMask;
-            this.props.showMask = showMask;
-
-            updated = true;
-        }
-
-        if (maskFormat && maskFormat !== this.props.maskFormat) {
-            this.input.setMaskFormat(maskFormat);
-
-            this.props.maskFormat = maskFormat;
-
-            updated = true;
-        }        
-
-        if (mask !== this.props.mask) {
-            this.input.setMask(mask);
-
-            this.props.mask = mask;
-
-            updated = true;
-        }
-
-        if (maskString !== this.props.maskString) {
-            this.input.setMaskString(maskString);
-
-            this.props.maskString = maskString;
-
-            updated = true;
-        }
-
-        if (maskChar !== this.props.maskChar) {
-            this.input.setMaskChar(maskChar);
-
-            this.props.maskChar = maskChar;
-
-            updated = true;
-        }
-
-        if (reformat !== this.props.reformat) {
-            this.input.setReformat(reformat);
-
-            this.props.reformat = reformat;
-
-            updated = true;
-        }
-
-        if (value !== this.props.value) {        
-            this.input.setValue(value);
-
-            this.props.value = value;
-
-            updated = true;
-        }        
-
-        if (updated) {
-            this.showValue();
-            this.setSelection();    
-        }
-    }
+    }    
 
     showValue = () => {
         if (this.showMask && (this.canSetSelection || this.props.alwaysShowMask)) {            
@@ -253,6 +173,86 @@ class MaskInput {
             return 'beforeinput';                        
         }
         return 'keypress'
+    }
+
+    setProps({
+        mask,
+        value,
+        reformat,
+        maskString,
+        maskChar,        
+        maskFormat,
+        showMask,
+        alwaysShowMask,
+        onChange,
+    }) {
+        let updated = false;
+
+        if (this.props.onChange !== onChange) {
+            this.props.onChange = onChange;
+        } 
+
+        if (this.props.alwaysShowMask !== alwaysShowMask || this.props.showMask !== showMask) {
+            this.showMask = alwaysShowMask || showMask;
+
+            this.props.alwaysShowMask = alwaysShowMask;
+            this.props.showMask = showMask;
+
+            updated = true;
+        }
+
+        if (maskFormat && maskFormat !== this.props.maskFormat) {
+            this.input.setMaskFormat(maskFormat);
+
+            this.props.maskFormat = maskFormat;
+
+            updated = true;
+        }        
+
+        if (mask !== this.props.mask) {
+            this.input.setMask(mask);
+
+            this.props.mask = mask;
+
+            updated = true;
+        }
+
+        if (maskString !== this.props.maskString) {
+            this.input.setMaskString(maskString);
+
+            this.props.maskString = maskString;
+
+            updated = true;
+        }
+
+        if (maskChar !== this.props.maskChar) {
+            this.input.setMaskChar(maskChar);
+
+            this.props.maskChar = maskChar;
+
+            updated = true;
+        }
+
+        if (reformat !== this.props.reformat) {
+            this.input.setReformat(reformat);
+
+            this.props.reformat = reformat;
+
+            updated = true;
+        }
+
+        if (value !== this.props.value) {        
+            this.input.setValue(value);
+
+            this.props.value = value;
+
+            updated = true;
+        }        
+
+        if (updated) {
+            this.showValue();
+            this.setSelection();    
+        }
     }
 
     destroy() {

@@ -41,9 +41,9 @@ input:hover {
 }
 
 .custom-input {
-    border: #0f8fee;
-    font-size: 12px; 
-    color: #666;   
+    font-size: 16px;
+    color: #000;
+    border-radius: 15px;
 }
 
 .code {

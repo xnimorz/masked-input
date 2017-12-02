@@ -1,23 +1,43 @@
 # Set of input tools for formatting
 
-This project allow to create mask input easily.
+This project allow to create masked inputs easily.
 In real world you often need to create input for credit card, phone number or birthday date etc. 
-Each of this usecases require to input value with some formatting (for example 0000-0000-000-0000 for credit card) and with static length. This project is going to help you.
+Each of this usecases require to input value with some formatting (for example 0000-0000-000-0000 for credit card). This project could help you.
 
 Watch demo: http://xnimorz.github.io/masked-input/
 
-See all components at https://github.com/xnimorz/masked-input
-
 # Components
+
+* [react-maskinput](https://github.com/xnimorz/masked-input#react-maskinput) — react masked input,
+* [react-numberinput](https://github.com/xnimorz/masked-input#react-numberinput) — react numeric input,
+* [input-core](https://github.com/xnimorz/masked-input#input-core) — the core module on top of which you can build any custom components,
+* [mask-input](https://github.com/xnimorz/masked-input#mask-input) — vanilla masked input.
 
 ## react-numberinput
 
-Component that allow to format only numbers.
+Component that allow to format only numbers. (5 000, 123 456 789, etc.)
+
+React number input was tested on desktop and mobile browsers:
+
+* Desktop browsers: 
+- [x] Safari >= 9
+- [x] Google Chrome
+- [x] EDGE, IE11
+- [x] Mozilla Firefox
+- [x] Opera, Yandex.browser etc.
+
+* Mobile browsers:
+- [x] Android Chrome
+- [x] Safari IOS  >= 9
 
 ### Installation
 
 ```
 npm install --save react-numberinput
+```
+or
+```
+yarn add react-numberinput
 ```
 
 This component work on top of react-maskinput and define custom formatting function called `reformat`. Also you can use this component as example to create you own components based on react-maskinput.
@@ -33,10 +53,27 @@ ReactDOM.render(
 )
 ```
 
+You also can set up different input element properties, such as class, data-attributes, etc. 
+This component works well with another libraries, styled-components as example:
+```javascript
+import React, { Component } from 'react';
+import MaskInput from 'react-maskinput';
+import NumberInput from 'react-numberinput';
+
+const StyledNumberInput = styled(NumberInput)`
+    border-radius: 10px;
+    border-color: rgb(219,112,147);
+`;
+
+render(    
+    <StyledNumberInput />
+);
+```
+
 ### Props
 
-All of passed props is applying to maskInput directly. See maskInput for more information. Note if you using reformat 
-function maskChar, maskString, mask will be ignored.
+All of passed props is applying to `react-maskedinput` directly. See `react-maskinput` for more information. Note if you using `reformat` 
+function `maskChar`, `maskString`, `mask` will be ignored.
 
 # Contributing
 
@@ -47,6 +84,12 @@ function maskChar, maskString, mask will be ignored.
 5) Submit a pull request 
 
 # Changelog
+
+1.0.0 several changes:
+* From this moment all of tools will have similar version
+* Added examples using components with another libs, such as `styled-components`
+* Improved demo page
+* Improved readme
 
 0.1.9 Use input-core@0.1.2, react-maskinput@0.1.8
 

@@ -1,11 +1,27 @@
  import React, { Component } from 'react';
  import { render } from 'react-dom';
+ import styled from 'styled-components';
 
 import MaskInput  from 'react-maskinput';
 import NumberInput from 'react-numberinput';
 import PlainMaskInput from 'mask-input';
 
+const MaskedInput = styled(MaskInput)`
+    border-radius: 10px;
+    border-color: rgb(112, 120, 219);
+    &:focus, &:hover {
+        border-color: rgb(112, 120, 219);
+    }
+`;
 
+const StyledNumberInput = styled(NumberInput)`
+    border-radius: 10px;
+    border-color: rgb(112, 120, 219);
+    &:focus, &:hover {
+        border-color: rgb(112, 120, 219);
+    }
+`;
+ 
 class DateInput extends Component {
     state = {
         maskString: 'ДД.ММ.ГГГГ',
@@ -184,13 +200,13 @@ class Example extends Component {
         
         return (
             <div>
-                <h1>Masked inputs</h1>
+                <h1>Masked inputs</h1> <a href='https://github.com/xnimorz/masked-input'>Project on github</a>
                 <div className='gap'></div>
                 <h2><a href='https://github.com/xnimorz/masked-input/tree/master/react-maskinput'><span className='github'></span>react-maskinput</a></h2>
                 <div>
-                    A react component which created formatted inputs.
+                    A react component for creating formatted inputs.
                 </div>                
-                Simple credit card:
+                Classic usage: credit card
                 <MaskInput
                     alwaysShowMask
                     maskChar='_'
@@ -206,7 +222,7 @@ class Example extends Component {
                     `}
                 </Code>
                 <div className='gap'></div>                
-                Credit card with automatic switching between visa and american express format (for amex format start writing 34 or 37)
+                Credit card with automatic switching between visa and american express format (for amex format write 34 or 37)
                 <CreditCard />
                 <Code>
                     {`
@@ -339,8 +355,23 @@ class DateInput extends Component {
                     </Code>
                 </div>
 
-                <div className='gap'>
-                    MaskInput with custom props such as className:
+                <div className='gap'> 
+                    List of specific react-maskinput props:
+                    <ul>
+                        <li>mask,</li>
+                        <li>reformat,</li>
+                        <li>maskFormat,</li>
+                        <li>maskChar,</li>
+                        <li>maskString,</li>
+                        <li>showMask,</li>
+                        <li>alwaysShowMask,</li>
+                        <li>getReference,</li>
+                        <li>onChange</li>
+                    </ul>
+
+                    All other props'll passed to `input` element directly. So you can set up class name, data attributes, etc.
+
+                    Use react-maskinput with custom class:
                     <MaskInput
                         className='custom-input'
                         alwaysShowMask
@@ -357,6 +388,37 @@ class DateInput extends Component {
 />                             
                             `}
                     </Code>
+                    <p>
+                        Use react-maskinput with styled-components:
+                    </p>
+                        <MaskedInput                            
+                            alwaysShowMask
+                            maskChar='_'
+                            mask='0000-0000-0000-0000'  
+                        /> 
+                    <Code>
+                            {`
+import React, { Component } from 'react';
+import MaskInput from 'react-maskinput';
+import styled from 'styled-components';
+
+const MaskedInput = styled(MaskInput)\`
+    border-radius: 10px;
+    border-color: rgb(112, 120, 219);
+    &:focus, &:hover {
+        border-color: rgb(112, 120, 219);
+    }
+\`;
+
+render(    
+    <MaskedInput
+        alwaysShowMask
+        maskChar='_'
+        mask='0000-0000-0000-0000'        
+    />
+);                      `}
+                    </Code>                      
+                    
                 </div>
 
                 <div className='gap'>
@@ -419,7 +481,7 @@ class NumberWithState extends Component {
                 </div>               
 
                 <div className='gap'>
-                    If you want to change value and then set up new:
+                    If you want to change value and set up new:
                     <ManagebleNumber />
 
                     <Code>
@@ -448,9 +510,30 @@ class ManagebleNumber extends Component {
                         `}
                     </Code>
                 </div>
-                <div className='gap'></div>
+                <div className='gap'>
+                    You can use react number input component with styled-components:
+                    <StyledNumberInput />
+
+                    <Code>{`
+import React, { Component } from 'react';
+import MaskInput from 'react-maskinput';
+import NumberInput from 'react-numberinput';
+
+const StyledNumberInput = styled(NumberInput)\`
+    border-radius: 10px;
+    border-color: rgb(112, 120, 219);
+    &:focus, &:hover {
+        border-color: rgb(112, 120, 219);
+    }
+\`;
+
+render(    
+    <StyledNumberInput />
+);`}                        
+                    </Code>
+                </div>            
                 <h2><a href='https://github.com/xnimorz/masked-input/tree/master/mask-input'><span className='github'></span>mask-input</a></h2>
-                In case you don't use react.
+                In case you don't use react. (This component didn't test on mobile browsers)
                 <input ref='maskInput' />                
 
                 <Code>

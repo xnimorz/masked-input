@@ -1,11 +1,15 @@
 {
   "name": "input-core",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "Core abilities of masked-input. Usefull to create custom input processors",
   "main": "./lib/inputCore",
   "scripts": {
     "build": "babel ./src --out-dir ./lib",
     "test": "mocha --compilers js:babel-register ./tests/index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xnimorz/masked-input.git"
   },
   "keywords": [
     "masked-input",
