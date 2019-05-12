@@ -2,11 +2,19 @@
   "name": "input-core",
   "version": "1.0.0",
   "description": "Core abilities of masked-input. Usefull to create custom input processors",
-  "main": "./lib/inputCore",
+  "main": "./lib",
   "scripts": {
-    "build": "babel ./src --out-dir ./lib",
-    "test": "mocha --compilers js:babel-register ./tests/index"
+    "test": "jest",
+    "build": "yarn jest && tsc -p ./",
+    "start": "npm run build -- -w",
+    "size": "yarn build && size-limit"
   },
+  "size-limit": [
+    {
+      "limit": "2Kb",
+      "path": "./lib/index.js"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/xnimorz/masked-input.git"
@@ -22,12 +30,10 @@
   "author": "Nikita Mostovoy <nik.mostovoy@gmail.com> (http://xnim.ru)",
   "license": "MIT",
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.24.0",
-    "babel-loader": "^6.4.1",
-    "babel-preset-es2015": "^6.24.0",
-    "babel-preset-stage-0": "^6.22.0",
-    "mocha": "^3.3.0",
-    "webpack": "^2.3.2"
+    "@types/jest": "^24.0.12",
+    "jest": "^24.8.0",
+    "size-limit": "^1.3.1",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.4.5"
   }
 }
