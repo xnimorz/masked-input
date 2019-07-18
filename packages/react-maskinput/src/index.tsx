@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
-import { createInput, defaults } from 'input-core';
+import { createInput, defaults } from '../../input-core/src/index';
+import { IMaskedInput } from '../../input-core/src/interfaces/IInput';
 
 const KEYBOARD = {
   BACKSPACE: 8,
@@ -51,9 +52,10 @@ const KEYBOARD = {
  *   getReference: callback to get input ref
  * All other props'll passed to input directly
  */
-class MaskInput extends Component {
-  constructor(props, context) {
-    super(props, context);
+class MaskInput extends React.Component {
+  input: IMaskedInput;
+  constructor(props) {
+    super(props);
 
     this.input = createInput({
       value: props.value || props.defaultValue || '',

@@ -2,7 +2,7 @@ import defineMaskList from './functions/defineMaskList';
 import inputValue from './functions/inputValue';
 import removeSelectedRange from './functions/removeSelectedRange';
 import { CharTypes } from './constants/CharTypesEnum';
-import { IInputParams, IInputState, IInputValue } from './interfaces/IInput';
+import { IInputParams, IInputState, IInputValue, IMaskedInput } from './interfaces/IInput';
 import { IMaskItem, IMaskItemsMap } from './interfaces/IMaskItem';
 import { ISelectRange } from './interfaces/ISelectRange';
 
@@ -31,7 +31,7 @@ export const defaults: {
   removeSelectedRange,
 };
 
-export const createInput = (params: IInputParams) => {
+export const createInput = (params: IInputParams): IMaskedInput => {
   let { maskString, reformat, maskFormat = defaults.maskFormat, maskChar = defaults.maskChar } = params;
   if (!reformat && !params.mask) {
     reformat = (params) => {

@@ -25,3 +25,22 @@ export interface IInputState {
     end: number;
   };
 }
+
+export interface IMaskedInput {
+  setMaskFormat: (maskFormat: Array<IMaskItem>) => void;
+  setValue: (data: string | Array<IInputValue>) => void;
+  setSelection: (newSelection: ISelectRange) => void;
+  getSelection: () => ISelectRange;
+  backspace: () => void;
+  removePreviosOrSelected: () => void;
+  removeNextOrSelected: () => void;
+  getState: () => IInputState;
+  setMask: (newMask: string) => void;
+  setMaskChar: (newMaskChar: string) => void;
+  setMaskString: (newMaskString: string) => void;
+  setReformat: (
+    newReformat: (params: { value: Array<IInputValue>; input?: string; selection: ISelectRange }) => IInputState
+  ) => void;
+  paste: (value: string) => void;
+  input: (input: string) => void;
+}
