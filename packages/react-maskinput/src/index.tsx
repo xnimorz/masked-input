@@ -1,12 +1,33 @@
 import * as React from 'react';
 
 import { createInput, defaults } from '../../input-core/src/index';
+import { IInputState, IInputValue } from '../../input-core/src/interfaces/IInput';
+import { IMaskItem } from '../../input-core/src/interfaces/IMaskItem';
+import { ISelectRange } from '../../input-core/src/interfaces/ISelectRange';
 import { IMaskedInput } from '../../input-core/src/interfaces/IInput';
 
 const KEYBOARD = {
   BACKSPACE: 8,
   DELETE: 46,
 };
+
+interface IInputProps {
+  value?: string;
+  mask?: string;
+  maskChar?: string;
+  maskFormat?: Array<IMaskItem>;
+  maskString?: string;
+  reformat?: (params: { value: Array<IInputValue>; input?: string; selection: ISelectRange }) => IInputState;
+  defaultValue?: string;
+  alwaysShowMask?: boolean;
+  showMask?: boolean;
+  onChange?: (e: React.SyntheticEvent) => void;
+  onValueChange?: (params: { maskedValue: string; value: string }) => void;
+  getReference?: (el: HTMLInputElement) => void;
+  onFocus: (e: React.FocusEvent) => void;
+  onBlur: (e: React.FocusEvent) => void;
+}
+
 /**
  * React-MaskInput component
  * Params:
@@ -47,13 +68,15 @@ const KEYBOARD = {
  *
  * Callbacks:
  *   onValueChange(event). event is:
- *     unformattedValue: unformatted value,
- *     value: visible value
+ *     maskedValue: masked value,
+ *     value: value without nessesary mask
  *   getReference: callback to get input ref
+ *   onChange(event) where event is a regular React.SyntheticEvent. Using this event you can get access to HTMLElement directly
  * All other props'll passed to input directly
  */
-class MaskInput extends React.Component {
+class MaskInput extends React.Component<IInputProps, { showMask: string }> {
   input: IMaskedInput;
+  canSetSelection: boolean;
   constructor(props) {
     super(props);
 
@@ -62,22 +85,12 @@ class MaskInput extends React.Component {
       reformat: props.reformat,
       maskString: props.maskString,
       maskChar: props.maskChar || defaults.maskChar,
-      mask: props.mask || defaults.mask,
+      mask: props.mask || undefined,
       maskFormat: props.maskFormat || defaults.maskFormat,
     });
 
     this.state = {
       showMask: props.alwaysShowMask || props.showMask,
-    };
-
-    this.applyValue = value => {
-      this.input.setValue(value);
-
-      if (this.state.showMask && (this.canSetSelection || this.props.alwaysShowMask)) {
-        this.refs.input.value = this.input.getMaskedValue();
-        return;
-      }
-      this.refs.input.value = this.input.getVisibleValue();
     };
   }
 
@@ -121,9 +134,9 @@ class MaskInput extends React.Component {
 
     if (updated) {
       if ((this.canSetSelection && nextProps.showMask) || nextProps.alwaysShowMask) {
-        this.refs.input.value = this.input.getMaskedValue();
+        (this.refs.input as HTMLInputElement).value = this.input.getState().maskedValue;
       } else {
-        this.refs.input.value = this.input.getVisibleValue();
+        (this.refs.input as HTMLInputElement).value = this.input.getState().maskedValue;
       }
       this.setSelection();
     }
@@ -131,15 +144,21 @@ class MaskInput extends React.Component {
 
   componentDidMount() {
     this.showValue();
-    this.props.getReference && this.props.getReference(this.refs.input);
+    this.props.getReference && this.props.getReference(this.refs.input as HTMLInputElement);
+  }
+
+  dispatchEvent(e: React.SyntheticEvent) {
+    this.props.onChange && this.props.onChange(e);
+    const { maskedValue, visibleValue } = this.input.getState();
+    this.props.onValueChange && this.props.onValueChange({ maskedValue, value: visibleValue });
   }
 
   showValue = () => {
     if (this.state.showMask && (this.canSetSelection || this.props.alwaysShowMask)) {
-      this.refs.input.value = this.input.getMaskedValue();
+      (this.refs.input as HTMLInputElement).value = this.input.getState().maskedValue;
       return;
     }
-    this.refs.input.value = this.input.getVisibleValue();
+    (this.refs.input as HTMLInputElement).value = this.input.getState().visibleValue;
   };
 
   setSelection = () => {
@@ -147,20 +166,21 @@ class MaskInput extends React.Component {
       return;
     }
     const selection = this.input.getSelection();
-    this.refs.input.setSelectionRange(selection.start, selection.end);
+    (this.refs.input as HTMLInputElement).setSelectionRange(selection.start, selection.end);
     const raf =
       window.requestAnimationFrame ||
       window.webkitRequestAnimationFrame ||
+      // @ts-ignore
       window.mozRequestAnimationFrame ||
       (fn => setTimeout(fn, 0));
     // For android
-    raf(() => this.refs.input.setSelectionRange(selection.start, selection.end));
+    raf(() => (this.refs.input as HTMLInputElement).setSelectionRange(selection.start, selection.end));
   };
 
   getSelection() {
     this.input.setSelection({
-      start: this.refs.input.selectionStart,
-      end: this.refs.input.selectionEnd,
+      start: (this.refs.input as HTMLInputElement).selectionStart,
+      end: (this.refs.input as HTMLInputElement).selectionEnd,
     });
   }
 
@@ -176,27 +196,27 @@ class MaskInput extends React.Component {
     // Timeout needed for IE
     setTimeout(this.setSelection, 0);
 
-    this.props.onChange && this.props.onChange(e);
+    this.dispatchEvent(e);
   };
 
-  onChange = e => {
+  onChange = (e: React.ChangeEvent) => {
     let currentValue;
     if (this.state.showMask && (this.canSetSelection || this.props.alwaysShowMask)) {
-      currentValue = this.input.getMaskedValue();
+      currentValue = this.input.getState().maskedValue;
     } else {
-      currentValue = this.input.getVisibleValue();
+      currentValue = this.input.getState().visibleValue;
     }
 
     // fix conflict by update value in mask model
-    if (e.target.value !== currentValue) {
+    if ((e.target as HTMLInputElement).value !== currentValue) {
       this.getSelection();
-      this.input.setValue(e.target.value);
+      this.input.setValue((e.target as HTMLInputElement).value);
 
       this.showValue();
 
       setTimeout(this.setSelection, 0);
     }
-    this.props.onChange && this.props.onChange(e);
+    this.dispatchEvent(e);
   };
 
   onKeyPress = e => {
@@ -260,12 +280,11 @@ class MaskInput extends React.Component {
       /* ignore unspecific props for input */
       onValueChange,
       mask,
-      direction,
       getReference,
       showMask,
       maskChar,
       alwaysShowMask,
-      customMaskFormat,
+      maskFormat,
       maskString,
       reformat,
 

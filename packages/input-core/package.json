@@ -30,7 +30,7 @@
   "author": "Nikita Mostovoy <nik.mostovoy@gmail.com> (http://xnim.ru)",
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^24.0.12",
+    "@types/jest": "^24.0.18",
     "jest": "^24.8.0",
     "size-limit": "^1.3.1",
     "ts-jest": "^24.0.2",
