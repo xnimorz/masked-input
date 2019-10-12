@@ -1,9 +1,7 @@
 A react component provide interface for inputs with custom mask.
 It could be a credit card, date, phone or even the email.
 
-### Step-by-step usage:
-
-1 Install it:
+### Installation
 
 ```noeditor
 npm install --save react-maskinput
@@ -15,8 +13,9 @@ or if you use `yarn`
 yarn add react-maskinput
 ```
 
-2 Create a component, which uses react-maskinput.
-For example if it's a credit card (click to the `show code` button):
+### Usage
+
+The most simple usage is a credit card (click to the `show code` button):
 
 ```js
 import MaskInput from 'react-maskinput';
@@ -24,7 +23,7 @@ import MaskInput from 'react-maskinput';
 <MaskInput alwaysShowMask maskChar="_" mask="0000-0000-0000-0000" size={20} />;
 ```
 
-### Use cases:
+### Other use cases:
 
 #### Credit card:
 

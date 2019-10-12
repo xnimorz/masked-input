@@ -1,4 +1,18 @@
-A react component, that allows input formatted numbers:
+A react component, that allows input formatted numbers.
+
+### Installation
+
+```
+npm install --save react-numberinput
+```
+
+or
+
+```
+yarn add react-numberinput
+```
+
+### Usage
 
 ```js
 import NumberInput from 'react-numberinput';
