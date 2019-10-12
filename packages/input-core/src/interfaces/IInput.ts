@@ -8,7 +8,7 @@ export interface IInputParams {
   maskChar?: string;
   maskFormat?: Array<IMaskItem>;
   maskString?: string;
-  reformat?: (params: { value: Array<IInputValue>; input?: string; selection: ISelectRange }) => IInputState;
+  reformat?: (params: { value: Array<IInputValue> | string; input?: string; selection: ISelectRange }) => IInputState;
 }
 
 export interface IInputValue {
@@ -17,7 +17,7 @@ export interface IInputValue {
 }
 
 export interface IInputState {
-  value: Array<IInputValue>;
+  value: Array<IInputValue> | string;
   visibleValue: string;
   maskedValue: string;
   selection: {
@@ -39,7 +39,11 @@ export interface IMaskedInput {
   setMaskChar: (newMaskChar: string) => void;
   setMaskString: (newMaskString: string) => void;
   setReformat: (
-    newReformat: (params: { value: Array<IInputValue>; input?: string; selection: ISelectRange }) => IInputState
+    newReformat: (params: {
+      value: Array<IInputValue> | string;
+      input?: string;
+      selection: ISelectRange;
+    }) => IInputState
   ) => void;
   paste: (value: string) => void;
   input: (input: string) => void;

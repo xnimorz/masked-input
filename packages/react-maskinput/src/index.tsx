@@ -1,10 +1,6 @@
 import * as React from 'react';
 
-import { createInput, defaults } from '../../input-core/src/index';
-import { IInputState, IInputValue } from '../../input-core/src/interfaces/IInput';
-import { IMaskItem } from '../../input-core/src/interfaces/IMaskItem';
-import { ISelectRange } from '../../input-core/src/interfaces/ISelectRange';
-import { IMaskedInput } from '../../input-core/src/interfaces/IInput';
+import { createInput, defaults, IInputState, IInputValue, IMaskItem, ISelectRange, IMaskedInput } from 'input-core';
 
 const KEYBOARD = {
   BACKSPACE: 8,
@@ -17,7 +13,7 @@ interface IInputProps {
   maskChar?: string;
   maskFormat?: Array<IMaskItem>;
   maskString?: string;
-  reformat?: (params: { value: Array<IInputValue>; input?: string; selection: ISelectRange }) => IInputState;
+  reformat?: (params: { value: Array<IInputValue> | string; input?: string; selection: ISelectRange }) => IInputState;
   defaultValue?: string;
   alwaysShowMask?: boolean;
   showMask?: boolean;
@@ -77,6 +73,7 @@ interface IInputProps {
 class MaskInput extends React.Component<IInputProps, { showMask: string }> {
   input: IMaskedInput;
   canSetSelection: boolean;
+  inputEl: HTMLInputElement;
   constructor(props) {
     super(props);
 
@@ -133,18 +130,14 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
     }
 
     if (updated) {
-      if ((this.canSetSelection && nextProps.showMask) || nextProps.alwaysShowMask) {
-        (this.refs.input as HTMLInputElement).value = this.input.getState().maskedValue;
-      } else {
-        (this.refs.input as HTMLInputElement).value = this.input.getState().maskedValue;
-      }
+      this.showValue();
       this.setSelection();
     }
   }
 
   componentDidMount() {
     this.showValue();
-    this.props.getReference && this.props.getReference(this.refs.input as HTMLInputElement);
+    this.props.getReference && this.props.getReference(this.inputEl);
   }
 
   dispatchEvent(e: React.SyntheticEvent) {
@@ -155,10 +148,10 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
 
   showValue = () => {
     if (this.state.showMask && (this.canSetSelection || this.props.alwaysShowMask)) {
-      (this.refs.input as HTMLInputElement).value = this.input.getState().maskedValue;
+      this.inputEl.value = this.input.getState().maskedValue;
       return;
     }
-    (this.refs.input as HTMLInputElement).value = this.input.getState().visibleValue;
+    this.inputEl.value = this.input.getState().visibleValue;
   };
 
   setSelection = () => {
@@ -166,7 +159,7 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
       return;
     }
     const selection = this.input.getSelection();
-    (this.refs.input as HTMLInputElement).setSelectionRange(selection.start, selection.end);
+    this.inputEl.setSelectionRange(selection.start, selection.end);
     const raf =
       window.requestAnimationFrame ||
       window.webkitRequestAnimationFrame ||
@@ -174,13 +167,13 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
       window.mozRequestAnimationFrame ||
       (fn => setTimeout(fn, 0));
     // For android
-    raf(() => (this.refs.input as HTMLInputElement).setSelectionRange(selection.start, selection.end));
+    raf(() => this.inputEl.setSelectionRange(selection.start, selection.end));
   };
 
   getSelection() {
     this.input.setSelection({
-      start: (this.refs.input as HTMLInputElement).selectionStart,
-      end: (this.refs.input as HTMLInputElement).selectionEnd,
+      start: this.inputEl.selectionStart,
+      end: this.inputEl.selectionEnd,
     });
   }
 
@@ -229,7 +222,7 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
     this.input.input(e.key || e.data || String.fromCharCode(e.which));
     this.showValue();
     this.setSelection();
-    this.props.onChange && this.props.onChange(e);
+    this.dispatchEvent(e);
   };
 
   onKeyDown = e => {
@@ -241,7 +234,7 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
       this.showValue();
       this.setSelection();
 
-      this.props.onChange && this.props.onChange(e);
+      this.dispatchEvent(e);
     }
 
     if (e.which === KEYBOARD.DELETE) {
@@ -252,7 +245,7 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
       this.showValue();
       this.setSelection();
 
-      this.props.onChange && this.props.onChange(e);
+      this.dispatchEvent(e);
     }
   };
 
@@ -306,7 +299,7 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         {...keyPressEvent}
-        ref="input"
+        ref={el => (this.inputEl = el as HTMLInputElement)}
       />
     );
   }

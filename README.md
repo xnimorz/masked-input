@@ -2,8 +2,6 @@
 
 # Set of input tools for formatting
 
-[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
-
 This project allow to create masked inputs easily.
 In real world you often need to create input for credit card, phone number or birthday date etc.
 Each of this usecases require to input value with some formatting (for example 0000-0000-000-0000 for credit card). This project could help you.

@@ -6,6 +6,7 @@ import { IInputParams, IInputState, IInputValue, IMaskedInput } from './interfac
 import { IMaskItem, IMaskItemsMap } from './interfaces/IMaskItem';
 import { ISelectRange } from './interfaces/ISelectRange';
 
+export { IInputParams, IInputState, IInputValue, IMaskedInput, IMaskItem, IMaskItemsMap, ISelectRange };
 export const defaults: {
   maskFormat: Array<IMaskItem>;
   maskChar: string;
@@ -35,7 +36,7 @@ export const createInput = (params: IInputParams): IMaskedInput => {
   let { maskString, reformat, maskFormat = defaults.maskFormat, maskChar = defaults.maskChar } = params;
   if (!reformat && !params.mask) {
     reformat = (params) => {
-      const str = params.value.map((item) => item.char).join('');
+      const str = (params.value as IInputValue[]).map((item) => item.char).join('');
       return {
         value: params.value,
         visibleValue: str,
@@ -57,12 +58,12 @@ export const createInput = (params: IInputParams): IMaskedInput => {
 
   let maskFormatMap: IMaskItemsMap;
   let selection: ISelectRange = { start: 0, end: 0 };
-  let value: Array<IInputValue>;
+  let value: Array<IInputValue> | string;
   let maskedValue: string;
   let visibleValue: string;
   let mask: Array<IMaskItem>;
 
-  const interdaceMethods = {
+  const interfaceMethods = {
     setMaskFormat(maskFormat: Array<IMaskItem>) {
       maskFormatMap = maskFormat.reduce((store, item) => {
         store[item.str] = item;
@@ -75,7 +76,7 @@ export const createInput = (params: IInputParams): IMaskedInput => {
 
       if (reformat) {
         result = reformat({
-          value,
+          value: data,
           selection,
         });
       } else {
@@ -95,7 +96,7 @@ export const createInput = (params: IInputParams): IMaskedInput => {
       maskedValue = result.maskedValue;
       visibleValue = result.visibleValue;
 
-      interdaceMethods.setSelection(result.selection);
+      interfaceMethods.setSelection(result.selection);
     },
 
     setSelection(newSelection: ISelectRange) {
@@ -110,7 +111,7 @@ export const createInput = (params: IInputParams): IMaskedInput => {
     },
 
     backspace() {
-      interdaceMethods.removePreviosOrSelected();
+      interfaceMethods.removePreviosOrSelected();
     },
 
     removePreviosOrSelected() {
@@ -121,7 +122,7 @@ export const createInput = (params: IInputParams): IMaskedInput => {
         }
       }
 
-      interdaceMethods.input('');
+      interfaceMethods.input('');
     },
 
     removeNextOrSelected() {
@@ -129,7 +130,7 @@ export const createInput = (params: IInputParams): IMaskedInput => {
         selection.end++;
       }
 
-      interdaceMethods.input('');
+      interfaceMethods.input('');
     },
 
     getState() {
@@ -143,7 +144,7 @@ export const createInput = (params: IInputParams): IMaskedInput => {
 
     setMask(newMask: string) {
       mask = defineMaskList(newMask, maskFormatMap);
-      interdaceMethods.setValue(value);
+      interfaceMethods.setValue(value);
     },
 
     setMaskChar(newMaskChar: string) {
@@ -153,7 +154,7 @@ export const createInput = (params: IInputParams): IMaskedInput => {
 
       maskChar = newMaskChar;
 
-      interdaceMethods.setValue(value);
+      interfaceMethods.setValue(value);
     },
 
     setMaskString(newMaskString: string) {
@@ -161,9 +162,9 @@ export const createInput = (params: IInputParams): IMaskedInput => {
         throw new Error('maskString must have the same length as mask');
       }
 
-      this._maskString = maskString;
+      maskString = newMaskString;
 
-      this.setValue(this._value);
+      interfaceMethods.setValue(value);
     },
 
     setReformat(
@@ -173,7 +174,7 @@ export const createInput = (params: IInputParams): IMaskedInput => {
     },
 
     paste(value: string) {
-      interdaceMethods.input(value);
+      interfaceMethods.input(value);
     },
 
     input(input: string) {
@@ -182,7 +183,7 @@ export const createInput = (params: IInputParams): IMaskedInput => {
       if (reformat) {
         result = reformat({ value, input, selection });
       } else {
-        value = removeSelectedRange({ value, selection, maskChar, maskString });
+        value = removeSelectedRange({ value: value as IInputValue[], selection, maskChar, maskString });
         selection.end = selection.start;
         result = inputValue({ data: value, input, selection, mask, maskChar, maskString });
       }
@@ -194,9 +195,9 @@ export const createInput = (params: IInputParams): IMaskedInput => {
     },
   };
 
-  interdaceMethods.setMaskFormat(maskFormat);
+  interfaceMethods.setMaskFormat(maskFormat);
   mask = defineMaskList(params.mask, maskFormatMap);
-  interdaceMethods.setValue(params.value);
+  interfaceMethods.setValue(params.value);
 
-  return interdaceMethods;
+  return interfaceMethods;
 };

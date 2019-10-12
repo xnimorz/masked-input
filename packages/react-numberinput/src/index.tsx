@@ -1,8 +1,6 @@
 import * as React from 'react';
 import MaskInput from 'react-maskinput';
-import { IInputState, IInputValue } from '../../input-core/src/interfaces/IInput';
-import { IMaskItem } from '../../input-core/src/interfaces/IMaskItem';
-import { ISelectRange } from '../../input-core/src/interfaces/ISelectRange';
+import { IInputState, IInputValue, IMaskItem, ISelectRange } from 'input-core';
 
 interface IInputProps {
   value?: string;
@@ -46,35 +44,35 @@ function removeSelectedRange(value: string, selection: { start: number; end: num
  */
 class NumberInput extends React.Component<IInputProps> {
   maskInput = null;
-  reformat = ({ data, input = '', selection }) => {
-    const newSelection = {
+  reformat = ({ value, input = '', selection }: { value: string; input?: string; selection: ISelectRange }) => {
+    const newSelection: ISelectRange = {
       start: selection.start,
       end: selection.end,
     };
 
-    let value = removeSelectedRange(data.replace(/(\D)/g, text => (text === ' ' ? ' ' : '')), newSelection);
+    let data = removeSelectedRange(value.replace(/(\D)/g, text => (text === ' ' ? ' ' : '')), newSelection);
     const inputValue = input.replace(/\D/g, '');
-    const oldLength = value.length;
+    const oldLength = data.length;
 
-    value = value.slice(0, newSelection.start) + inputValue + value.slice(newSelection.start, value.length);
-    const spaces = value.match(/\s/g) || [];
+    data = data.slice(0, newSelection.start) + inputValue + data.slice(newSelection.start, data.length);
+    const spaces = data.match(/\s/g) || [];
     let oldSpacesCount = spaces.length;
     let newSpacesCount = 0;
-    value = value.replace(/\s/g, '').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, text => {
+    data = data.replace(/\s/g, '').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, text => {
       newSpacesCount++;
       return `${text} `;
     });
 
     let index = newSelection.start + Math.min(0, newSpacesCount - oldSpacesCount);
     if (inputValue) {
-      index = Math.max(0, value.length - oldLength + index);
+      index = Math.max(0, data.length - oldLength + index);
     }
     newSelection.end = newSelection.start = index;
 
     return {
-      value,
-      maskedValue: value,
-      visibleValue: value,
+      value: data,
+      maskedValue: data,
+      visibleValue: data,
       selection: newSelection,
     };
   };
