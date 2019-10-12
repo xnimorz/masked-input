@@ -38,6 +38,8 @@ export interface IMaskedInput {
   setMask: (newMask: string) => void;
   setMaskChar: (newMaskChar: string) => void;
   setMaskString: (newMaskString: string) => void;
+  subscribe: (callback: (state: IInputState) => any) => void;
+  unsubscribe: (callback: (state: IInputState) => any) => void;
   setReformat: (
     newReformat: (params: {
       value: Array<IInputValue> | string;
