@@ -129,7 +129,7 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
     this.props.getReference && this.props.getReference(this.inputEl);
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     this.input.unsubscribe(this.subscriber);
   }
 

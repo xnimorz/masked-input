@@ -16,7 +16,7 @@
     "credit-card",
     "phone"
   ],
-  "author": "Nikita Mostovoy <nik.mostovoy@gmail.com> (http://xnim.ru)",
+  "author": "Nik Mostovoy <nik.mostovoy@gmail.com> (http://xnim.ru)",
   "license": "MIT",
   "workspaces": [
     "packages/*",
@@ -25,8 +25,6 @@
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "lerna": "^3.13.4",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
     "styled-components": "^2.2.4"
   }
 }

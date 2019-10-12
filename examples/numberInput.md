@@ -2,13 +2,13 @@ A react component, that allows input formatted numbers.
 
 ### Installation
 
-```
+```noeditor
 npm install --save react-numberinput
 ```
 
 or
 
-```
+```noeditor
 yarn add react-numberinput
 ```
 
