@@ -92,8 +92,6 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
   }
 
   componentWillReceiveProps(nextProps) {
-    let updated = false;
-
     if (this.props.alwaysShowMask !== nextProps.alwaysShowMask || this.props.showMask !== nextProps.showMask) {
       this.setState({
         showMask: nextProps.alwaysShowMask || nextProps.showMask,
@@ -102,17 +100,14 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
 
     if (nextProps.reformat !== this.props.reformat) {
       this.input.setReformat(nextProps.reformat);
-      updated = true;
     }
 
     if (nextProps.maskFormat && nextProps.maskFormat !== this.props.maskFormat) {
       this.input.setMaskFormat(nextProps.maskFormat);
-      updated = true;
     }
 
     if (nextProps.mask !== this.props.mask) {
       this.input.setMask(nextProps.mask);
-      updated = true;
     }
 
     if (nextProps.maskString !== this.props.maskString) {
@@ -121,23 +116,21 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
 
     if (nextProps.maskChar !== this.props.maskChar) {
       this.input.setMaskChar(nextProps.maskChar);
-      updated = true;
     }
 
     if (nextProps.value !== this.props.value) {
       this.input.setValue(nextProps.value);
-      updated = true;
-    }
-
-    if (updated) {
-      this.showValue();
-      this.setSelection();
     }
   }
 
   componentDidMount() {
+    this.input.subscribe(this.subscriber);
     this.showValue();
     this.props.getReference && this.props.getReference(this.inputEl);
+  }
+
+  componentDidUnmount() {
+    this.input.unsubscribe(this.subscriber);
   }
 
   dispatchEvent(e: React.SyntheticEvent) {
@@ -145,6 +138,11 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
     const { maskedValue, visibleValue } = this.input.getState();
     this.props.onValueChange && this.props.onValueChange({ maskedValue, value: visibleValue });
   }
+
+  subscriber = () => {
+    this.showValue();
+    this.setSelection();
+  };
 
   showValue = () => {
     if (this.state.showMask && (this.canSetSelection || this.props.alwaysShowMask)) {
@@ -184,8 +182,6 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
     // getData value needed for IE also works in FF & Chrome
     this.input.paste(e.clipboardData.getData('Text'));
 
-    this.showValue();
-
     // Timeout needed for IE
     setTimeout(this.setSelection, 0);
 
@@ -205,8 +201,6 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
       this.getSelection();
       this.input.setValue((e.target as HTMLInputElement).value);
 
-      this.showValue();
-
       setTimeout(this.setSelection, 0);
     }
     this.dispatchEvent(e);
@@ -220,7 +214,6 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
     e.preventDefault();
     this.getSelection();
     this.input.input(e.key || e.data || String.fromCharCode(e.which));
-    this.showValue();
     this.setSelection();
     this.dispatchEvent(e);
   };
@@ -231,7 +224,6 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
       this.getSelection();
       this.input.removePreviosOrSelected();
 
-      this.showValue();
       this.setSelection();
 
       this.dispatchEvent(e);
@@ -242,7 +234,6 @@ class MaskInput extends React.Component<IInputProps, { showMask: string }> {
       this.getSelection();
       this.input.removeNextOrSelected();
 
-      this.showValue();
       this.setSelection();
 
       this.dispatchEvent(e);

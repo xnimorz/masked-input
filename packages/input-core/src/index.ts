@@ -63,7 +63,17 @@ export const createInput = (params: IInputParams): IMaskedInput => {
   let visibleValue: string;
   let mask: Array<IMaskItem>;
 
+  let callbacks = [];
+
   const interfaceMethods = {
+    subscribe(callback) {
+      callbacks.push(callback);
+    },
+
+    unsubscribe(callback) {
+      callbacks = callbacks.filter((item) => item !== callback);
+    },
+
     setMaskFormat(maskFormat: Array<IMaskItem>) {
       maskFormatMap = maskFormat.reduce((store, item) => {
         store[item.str] = item;
@@ -92,11 +102,7 @@ export const createInput = (params: IInputParams): IMaskedInput => {
         result = inputValue({ data: dataList, selection, mask, maskChar, maskString });
       }
 
-      value = result.value;
-      maskedValue = result.maskedValue;
-      visibleValue = result.visibleValue;
-
-      interfaceMethods.setSelection(result.selection);
+      applyChanges(result);
     },
 
     setSelection(newSelection: ISelectRange) {
@@ -171,6 +177,7 @@ export const createInput = (params: IInputParams): IMaskedInput => {
       newReformat: (params: { value: Array<IInputValue>; input?: string; selection: ISelectRange }) => IInputState
     ) {
       reformat = newReformat;
+      interfaceMethods.setValue(value);
     },
 
     paste(value: string) {
@@ -183,17 +190,41 @@ export const createInput = (params: IInputParams): IMaskedInput => {
       if (reformat) {
         result = reformat({ value, input, selection });
       } else {
-        value = removeSelectedRange({ value: value as IInputValue[], selection, maskChar, maskString });
+        const tmpValue = removeSelectedRange({ value: value as IInputValue[], selection, maskChar, maskString });
         selection.end = selection.start;
-        result = inputValue({ data: value, input, selection, mask, maskChar, maskString });
+        result = inputValue({ data: tmpValue, input, selection, mask, maskChar, maskString });
       }
 
-      value = result.value;
-      maskedValue = result.maskedValue;
-      visibleValue = result.visibleValue;
-      this.setSelection(result.selection);
+      applyChanges(result);
     },
   };
+
+  function applyChanges(result: IInputState) {
+    const oldMaskedValue = maskedValue;
+    const oldVisibleValue = visibleValue;
+    const oldSelection = selection;
+
+    value = result.value;
+    maskedValue = result.maskedValue;
+    visibleValue = result.visibleValue;
+    interfaceMethods.setSelection(result.selection);
+
+    if (
+      oldMaskedValue !== maskedValue ||
+      oldVisibleValue !== visibleValue ||
+      oldSelection.start !== selection.start ||
+      oldSelection.end !== selection.end
+    ) {
+      notify();
+    }
+  }
+
+  function notify() {
+    const state = interfaceMethods.getState();
+    callbacks.forEach((callback) => {
+      callback(state);
+    });
+  }
 
   interfaceMethods.setMaskFormat(maskFormat);
   mask = defineMaskList(params.mask, maskFormatMap);
