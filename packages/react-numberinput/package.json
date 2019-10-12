@@ -1,6 +1,6 @@
 {
   "name": "react-numberinput",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "React Number input component. Allow to input formatted number values. Also you can use this component as example of inputCore component with reformat user function",
   "main": "./lib/numberInput.js",
   "scripts": {
@@ -30,6 +30,6 @@
     "typescript": "^3.6.4"
   },
   "dependencies": {
-    "react-maskinput": "^1.0.1"
+    "react-maskinput": "^2.0.0"
   }
 }

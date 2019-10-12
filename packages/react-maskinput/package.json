@@ -1,6 +1,6 @@
 {
   "name": "react-maskinput",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "React mask input component. Allow to input formatted values with fixed length or apply custom formtatting function, to format values with any length",
   "main": "./lib/maskInput.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "formatted-input",
     "credit-card",
     "phone",
-    "date-format"    
+    "date-format"
   ],
   "author": "Nik Mostovoy <nik.mostovoy@gmail.com> (http://xnim.ru)",
   "license": "MIT",
@@ -33,6 +33,6 @@
     "typescript": "^3.6.4"
   },
   "dependencies": {
-    "input-core": "^1.0.0"
+    "input-core": "^2.0.0"
   }
 }

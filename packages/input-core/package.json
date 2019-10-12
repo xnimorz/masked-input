@@ -1,6 +1,6 @@
 {
   "name": "input-core",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Core abilities of masked-input. Usefull to create custom input processors",
   "main": "./lib",
   "scripts": {
