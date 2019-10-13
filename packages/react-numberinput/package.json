@@ -30,7 +30,7 @@
     "typescript": "^3.6.4"
   },
   "dependencies": {
-    "react-maskinput": "^2.0.0",
-    "input-core": "^2.0.0"
+    "input-core": "^2.0.0",
+    "react-maskinput": "^2.0.0"
   }
 }
