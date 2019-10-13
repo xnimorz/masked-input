@@ -1,4 +1,4 @@
-import { CharTypes } from '../constants/charTypesEnum';
+import { CharTypes } from '../constants/CharTypesEnum';
 import { IInputValue } from '../interfaces/IInput';
 import { ISelectRange } from '../interfaces/ISelectRange';
 
