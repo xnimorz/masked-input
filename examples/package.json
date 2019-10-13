@@ -1,6 +1,6 @@
 {
   "name": "masked-input",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "examples of react-maskinput react-numberinput and vanilla-mask-input",
   "main": "index.js",
   "private": true,
@@ -11,12 +11,12 @@
   "author": "Nik Mostovoy (nik.mostovoy@gmail.com)",
   "license": "MIT",
   "dependencies": {
-    "input-core": "^2.0.0",
+    "input-core": "^2.0.1",
     "mask-input": "^1.0.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
-    "react-maskinput": "^2.0.0",
-    "react-numberinput": "^2.0.0",
+    "react-maskinput": "^2.0.1",
+    "react-numberinput": "^2.0.1",
     "react-styleguidist": "^9.1.16"
   },
   "devDependencies": {
