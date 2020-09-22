@@ -98,14 +98,7 @@ The USA phone format:
 ```js
 import MaskInput from 'react-maskinput';
 
-<MaskInput
-  alwaysShowMask
-  mask={'+1 (000) 000 - 0000'}
-  size={20}
-  showMask
-  maskChar="_"
-  placeholder="Enter your birthdate DD.MM.YYYY"
-/>;
+<MaskInput alwaysShowMask mask={'+1 (000) 000 - 0000'} size={20} showMask maskChar="_" />;
 ```
 
 ### Customization:

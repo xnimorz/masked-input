@@ -70,230 +70,248 @@ interface IInputProps {
  *   onChange(event) where event is a regular React.SyntheticEvent. Using this event you can get access to HTMLElement directly
  * All other props'll passed to input directly
  */
-class MaskInput extends React.Component<IInputProps, { showMask: string }> {
-  input: IMaskedInput;
-  canSetSelection: boolean;
-  inputEl: HTMLInputElement;
-  constructor(props) {
-    super(props);
+function MaskInput(props: IInputProps) {
+  const input = React.useMemo<IMaskedInput>(
+    () =>
+      createInput({
+        value: props.value || props.defaultValue || '',
+        reformat: props.reformat,
+        maskString: props.maskString,
+        maskChar: props.maskChar || defaults.maskChar,
+        mask: props.mask || undefined,
+        maskFormat: props.maskFormat || defaults.maskFormat,
+      }),
+    []
+  );
+  const firstRender = React.useRef(false);
+  const canSetSelection = React.useRef(false);
+  const inputEl = React.useRef<HTMLInputElement>();
+  const [showMask, setShowMask] = React.useState(props.alwaysShowMask || props.showMask);
 
-    this.input = createInput({
-      value: props.value || props.defaultValue || '',
-      reformat: props.reformat,
-      maskString: props.maskString,
-      maskChar: props.maskChar || defaults.maskChar,
-      mask: props.mask || undefined,
-      maskFormat: props.maskFormat || defaults.maskFormat,
+  const getSelection = React.useCallback(() => {
+    input.setSelection({
+      start: inputEl.current.selectionStart,
+      end: inputEl.current.selectionEnd,
     });
+  }, [input]);
 
-    this.state = {
-      showMask: props.alwaysShowMask || props.showMask,
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.alwaysShowMask !== nextProps.alwaysShowMask || this.props.showMask !== nextProps.showMask) {
-      this.setState({
-        showMask: nextProps.alwaysShowMask || nextProps.showMask,
-      });
-    }
-
-    if (nextProps.reformat !== this.props.reformat) {
-      this.input.setReformat(nextProps.reformat);
-    }
-
-    if (nextProps.maskFormat && nextProps.maskFormat !== this.props.maskFormat) {
-      this.input.setMaskFormat(nextProps.maskFormat);
-    }
-
-    if (nextProps.mask !== this.props.mask) {
-      this.input.setMask(nextProps.mask);
-    }
-
-    if (nextProps.maskString !== this.props.maskString) {
-      this.input.setMaskString(nextProps.maskString);
-    }
-
-    if (nextProps.maskChar !== this.props.maskChar) {
-      this.input.setMaskChar(nextProps.maskChar);
-    }
-
-    if (nextProps.value !== this.props.value) {
-      this.input.setValue(nextProps.value);
-    }
-  }
-
-  componentDidMount() {
-    this.input.subscribe(this.subscriber);
-    this.showValue();
-    this.props.getReference && this.props.getReference(this.inputEl);
-  }
-
-  componentWillUnmount() {
-    this.input.unsubscribe(this.subscriber);
-  }
-
-  dispatchEvent(e: React.SyntheticEvent) {
-    this.props.onChange && this.props.onChange(e);
-    const { maskedValue, visibleValue } = this.input.getState();
-    this.props.onValueChange && this.props.onValueChange({ maskedValue, value: visibleValue });
-  }
-
-  subscriber = () => {
-    this.showValue();
-    this.setSelection();
-  };
-
-  showValue = () => {
-    if (this.state.showMask && (this.canSetSelection || this.props.alwaysShowMask)) {
-      this.inputEl.value = this.input.getState().maskedValue;
+  const setSelection = React.useCallback(() => {
+    if (!canSetSelection.current) {
       return;
     }
-    this.inputEl.value = this.input.getState().visibleValue;
-  };
+    const selection = input.getSelection();
+    inputEl.current.setSelectionRange(selection.start, selection.end);
 
-  setSelection = () => {
-    if (!this.canSetSelection) {
-      return;
-    }
-    const selection = this.input.getSelection();
-    this.inputEl.setSelectionRange(selection.start, selection.end);
     const raf =
       window.requestAnimationFrame ||
       window.webkitRequestAnimationFrame ||
       // @ts-ignore
       window.mozRequestAnimationFrame ||
-      (fn => setTimeout(fn, 0));
-    // For android
-    raf(() => this.inputEl.setSelectionRange(selection.start, selection.end));
+      ((fn) => setTimeout(fn, 0));
+    raf(() => inputEl.current.setSelectionRange(selection.start, selection.end));
+  }, [input]);
+
+  const showValue = React.useCallback(() => {
+    if (showMask && (canSetSelection.current || props.alwaysShowMask)) {
+      inputEl.current.value = input.getState().maskedValue;
+      return;
+    }
+    inputEl.current.value = input.getState().visibleValue;
+  }, [showMask, props.alwaysShowMask, input]);
+
+  React.useEffect(() => {
+    if (!firstRender.current) {
+      setShowMask(props.alwaysShowMask || props.showMask);
+    }
+  }, [props.alwaysShowMask, props.showMask]);
+
+  React.useEffect(() => {
+    if (!firstRender.current) {
+      input.setReformat(props.reformat);
+    }
+  }, [props.reformat]);
+
+  React.useEffect(() => {
+    if (!firstRender.current) {
+      input.setMaskFormat(props.maskFormat);
+    }
+  }, [props.maskFormat]);
+
+  React.useEffect(() => {
+    if (!firstRender.current) {
+      input.setMask(props.mask);
+    }
+  }, [props.mask]);
+
+  React.useEffect(() => {
+    if (!firstRender.current) {
+      input.setMask(props.mask);
+    }
+  }, [props.mask]);
+
+  React.useEffect(() => {
+    if (!firstRender.current) {
+      input.setMaskString(props.maskString);
+    }
+  }, [props.maskString]);
+
+  React.useEffect(() => {
+    if (!firstRender.current) {
+      input.setMaskChar(props.maskChar);
+    }
+  }, [props.maskChar]);
+
+  React.useEffect(() => {
+    if (!firstRender.current) {
+      input.setValue(props.value);
+    }
+  }, [props.value]);
+
+  React.useEffect(() => {
+    firstRender.current = false;
+    showValue();
+  }, [firstRender.current, input]);
+
+  React.useEffect(() => {
+    const subscriber = () => {
+      showValue();
+      setSelection();
+    };
+
+    input.subscribe(subscriber);
+
+    return () => {
+      input.unsubscribe(subscriber);
+    };
+  }, [input, showValue, setSelection]);
+
+  React.useEffect(() => {
+    props.getReference && props.getReference(inputEl.current);
+  }, [props.getReference]);
+
+  const keyPressPropName = React.useCallback(() => {
+    if (typeof navigator !== 'undefined' && navigator.userAgent.match(/Android/i)) {
+      return 'onBeforeInput';
+    }
+    return 'onKeyPress';
+  }, []);
+
+  const dispatchEvent = (e: React.SyntheticEvent) => {
+    props.onChange && props.onChange(e);
+    const { maskedValue, visibleValue } = input.getState();
+    onValueChange && onValueChange({ maskedValue, value: visibleValue });
   };
 
-  getSelection() {
-    this.input.setSelection({
-      start: this.inputEl.selectionStart,
-      end: this.inputEl.selectionEnd,
-    });
-  }
-
-  onPaste = e => {
+  const onPaste = (e) => {
     e.preventDefault();
-    this.getSelection();
+    getSelection();
 
     // getData value needed for IE also works in FF & Chrome
-    this.input.paste(e.clipboardData.getData('Text'));
+    input.paste(e.clipboardData.getData('Text'));
 
     // Timeout needed for IE
-    setTimeout(this.setSelection, 0);
+    setTimeout(setSelection, 0);
 
-    this.dispatchEvent(e);
+    dispatchEvent(e);
   };
 
-  onChange = (e: React.ChangeEvent) => {
+  const onChange = (e: React.ChangeEvent) => {
     let currentValue;
-    if (this.state.showMask && (this.canSetSelection || this.props.alwaysShowMask)) {
-      currentValue = this.input.getState().maskedValue;
+    if (showMask && (canSetSelection.current || props.alwaysShowMask)) {
+      currentValue = input.getState().maskedValue;
     } else {
-      currentValue = this.input.getState().visibleValue;
+      currentValue = input.getState().visibleValue;
     }
 
     // fix conflict by update value in mask model
     if ((e.target as HTMLInputElement).value !== currentValue) {
-      this.getSelection();
-      this.input.setValue((e.target as HTMLInputElement).value);
+      getSelection();
+      input.setValue((e.target as HTMLInputElement).value);
 
-      setTimeout(this.setSelection, 0);
+      setTimeout(setSelection, 0);
     }
-    this.dispatchEvent(e);
+    dispatchEvent(e);
   };
 
-  onKeyPress = e => {
+  const onKeyPress = (e) => {
     if (e.metaKey || e.altKey || e.ctrlKey || e.key === 'Enter') {
       return;
     }
 
     e.preventDefault();
-    this.getSelection();
-    this.input.input(e.key || e.data || String.fromCharCode(e.which));
-    this.setSelection();
-    this.dispatchEvent(e);
+    getSelection();
+    input.input(e.key || e.data || String.fromCharCode(e.which));
+    setSelection();
+    dispatchEvent(e);
   };
 
-  onKeyDown = e => {
+  const onKeyDown = (e) => {
     if (e.which === KEYBOARD.BACKSPACE) {
       e.preventDefault();
-      this.getSelection();
-      this.input.removePreviosOrSelected();
+      getSelection();
+      input.removePreviosOrSelected();
 
-      this.setSelection();
+      setSelection();
 
-      this.dispatchEvent(e);
+      dispatchEvent(e);
     }
 
     if (e.which === KEYBOARD.DELETE) {
       e.preventDefault();
-      this.getSelection();
-      this.input.removeNextOrSelected();
+      getSelection();
+      input.removeNextOrSelected();
 
-      this.setSelection();
+      setSelection();
 
-      this.dispatchEvent(e);
+      dispatchEvent(e);
     }
   };
 
-  onFocus = e => {
-    this.canSetSelection = true;
-    this.props.onFocus && this.props.onFocus(e);
+  const onFocus = (e) => {
+    canSetSelection.current = true;
+    props.onFocus && props.onFocus(e);
   };
 
-  onBlur = e => {
-    this.canSetSelection = false;
-    this.props.onBlur && this.props.onBlur(e);
+  const onBlur = (e) => {
+    canSetSelection.current = false;
+    props.onBlur && props.onBlur(e);
   };
 
-  keyPressPropName() {
-    if (typeof navigator !== 'undefined' && navigator.userAgent.match(/Android/i)) {
-      return 'onBeforeInput';
-    }
-    return 'onKeyPress';
-  }
+  const {
+    onChange: ignoreOnChange,
 
-  render() {
-    const {
-      onChange,
+    /* ignore unspecific props for input */
+    onValueChange,
+    mask,
+    getReference,
+    showMask: ignoreShowMask,
+    maskChar,
+    alwaysShowMask,
+    maskFormat,
+    maskString,
+    reformat,
 
-      /* ignore unspecific props for input */
-      onValueChange,
-      mask,
-      getReference,
-      showMask,
-      maskChar,
-      alwaysShowMask,
-      maskFormat,
-      maskString,
-      reformat,
+    /* ignore values */
+    value,
+    defaultValue,
 
-      /* ignore values */
-      value,
-      defaultValue,
+    ...inputProps
+  } = props;
 
-      ...inputProps
-    } = this.props;
+  const keyPressEvent = { [keyPressPropName()]: onKeyPress };
 
-    const keyPressEvent = { [this.keyPressPropName()]: this.onKeyPress };
-
-    return (
-      <input
-        {...inputProps}
-        onChange={this.onChange}
-        onKeyDown={this.onKeyDown}
-        onPaste={this.onPaste}
-        onFocus={this.onFocus}
-        onBlur={this.onBlur}
-        {...keyPressEvent}
-        ref={el => (this.inputEl = el as HTMLInputElement)}
-      />
-    );
-  }
+  return (
+    <input
+      {...inputProps}
+      onChange={onChange}
+      onKeyDown={onKeyDown}
+      onPaste={onPaste}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      {...keyPressEvent}
+      ref={inputEl}
+    />
+  );
 }
 
 export default MaskInput;
