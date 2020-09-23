@@ -15,7 +15,7 @@
     "mask-input": "^1.0.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
-    "react-maskinput": "^2.0.1",
+    "react-maskinput": "2.1.0-beta",
     "react-numberinput": "^2.0.1",
     "react-styleguidist": "^9.1.16"
   },

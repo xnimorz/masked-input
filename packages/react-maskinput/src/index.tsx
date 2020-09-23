@@ -83,7 +83,7 @@ function MaskInput(props: IInputProps) {
       }),
     []
   );
-  const firstRender = React.useRef(false);
+  const firstRender = React.useRef(true);
   const canSetSelection = React.useRef(false);
   const inputEl = React.useRef<HTMLInputElement>();
   const [showMask, setShowMask] = React.useState(props.alwaysShowMask || props.showMask);

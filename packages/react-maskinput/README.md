@@ -231,3 +231,9 @@ each object in array have several fields:
 # License
 
 MIT
+
+# Changelog
+
+## 3.0.0
+
+The code of react-maskinput was rewritten to react hooks. It should be compatible with the prevoius version (2.x), but in some complicated cases behavior could be changed.

@@ -9010,6 +9010,20 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-maskinput@2.1.0-beta:
+  version "2.1.0-beta"
+  resolved "https://registry.yarnpkg.com/react-maskinput/-/react-maskinput-2.1.0-beta.tgz#e6a23ba39ef365203f9c05e52db22804872c65cc"
+  integrity sha512-O58QSo581ViThuHrRiDJGFikEtn4np/mpT4bJzh/ph+vywe14zN9QGz2Kkb1jaY/DByblQxLbjTAVjZZcjr0GQ==
+  dependencies:
+    input-core "^2.0.1"
+
+react-maskinput@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-maskinput/-/react-maskinput-2.0.1.tgz#2c1812d980a81d7324f3dfe4d6d19476240ed45e"
+  integrity sha512-lspRHt5B/9DnAyf0ksxg8PPif1zfbCTVLSn5eN7oMyXB2QMdsMMHmSSnK4Kh72371J/RBQEhbC3dc7/REbw9ow==
+  dependencies:
+    input-core "^2.0.1"
+
 react-simple-code-editor@^0.9.7:
   version "0.9.15"
   resolved "https://registry.yarnpkg.com/react-simple-code-editor/-/react-simple-code-editor-0.9.15.tgz#59e3583832e9e98992d3674b2d7673b4cd1c5709"
@@ -10732,9 +10746,9 @@ tryer@^1.0.1:
   integrity sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA==
 
 ts-jest@^24.0.2:
-  version "24.1.0"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-24.1.0.tgz#2eaa813271a2987b7e6c3fefbda196301c131734"
-  integrity sha512-HEGfrIEAZKfu1pkaxB9au17b1d9b56YZSqz5eCVE8mX68+5reOvlM93xGOzzCREIov9mdH7JBG+s0UyNAqr0tQ==
+  version "24.3.0"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-24.3.0.tgz#b97814e3eab359ea840a1ac112deae68aa440869"
+  integrity sha512-Hb94C/+QRIgjVZlJyiWwouYUF+siNJHJHknyspaOcZ+OQAIdFG/UrdQVXw/0B8Z3No34xkUXZJpOTy9alOWdVQ==
   dependencies:
     bs-logger "0.x"
     buffer-from "1.x"
