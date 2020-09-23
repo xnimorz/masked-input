@@ -9017,13 +9017,6 @@ react-maskinput@2.1.0-beta:
   dependencies:
     input-core "^2.0.1"
 
-react-maskinput@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/react-maskinput/-/react-maskinput-2.0.1.tgz#2c1812d980a81d7324f3dfe4d6d19476240ed45e"
-  integrity sha512-lspRHt5B/9DnAyf0ksxg8PPif1zfbCTVLSn5eN7oMyXB2QMdsMMHmSSnK4Kh72371J/RBQEhbC3dc7/REbw9ow==
-  dependencies:
-    input-core "^2.0.1"
-
 react-simple-code-editor@^0.9.7:
   version "0.9.15"
   resolved "https://registry.yarnpkg.com/react-simple-code-editor/-/react-simple-code-editor-0.9.15.tgz#59e3583832e9e98992d3674b2d7673b4cd1c5709"
