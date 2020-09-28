@@ -7,7 +7,7 @@ const KEYBOARD = {
   DELETE: 46,
 };
 
-interface IInputProps {
+export interface IInputProps {
   value?: string;
   mask?: string;
   maskChar?: string;
@@ -20,8 +20,9 @@ interface IInputProps {
   onChange?: (e: React.SyntheticEvent) => void;
   onValueChange?: (params: { maskedValue: string; value: string }) => void;
   getReference?: (el: HTMLInputElement) => void;
-  onFocus: (e: React.FocusEvent) => void;
-  onBlur: (e: React.FocusEvent) => void;
+  onFocus?: (e: React.FocusEvent) => void;
+  onBlur?: (e: React.FocusEvent) => void;
+  getApplyValueCallback?: (fn: (value: string) => void) => void;
 }
 
 /**
@@ -171,6 +172,14 @@ function MaskInput(props: IInputProps) {
     firstRender.current = false;
     showValue();
   }, [firstRender.current, input]);
+
+  React.useEffect(() => {
+    props.getApplyValueCallback &&
+      props.getApplyValueCallback((str: string) => {
+        input.setValue(str);
+        showValue();
+      });
+  }, [props.getApplyValueCallback, showValue]);
 
   React.useEffect(() => {
     const subscriber = () => {

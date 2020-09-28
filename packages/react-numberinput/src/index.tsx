@@ -1,22 +1,17 @@
 import * as React from 'react';
-import MaskInput from 'react-maskinput';
+import MaskInput from '../../../examples/node_modules/react-maskinput/lib';
 import { IInputState, IInputValue, IMaskItem, ISelectRange } from 'input-core';
 
 interface IInputProps {
   value?: string;
-  mask?: string;
-  maskChar?: string;
-  maskFormat?: Array<IMaskItem>;
-  maskString?: string;
   reformat?: (params: { value: Array<IInputValue>; input?: string; selection: ISelectRange }) => IInputState;
   defaultValue?: string;
-  alwaysShowMask?: boolean;
-  showMask?: boolean;
   onChange?: (e: React.SyntheticEvent) => void;
   onValueChange?: (params: { maskedValue: string; value: string }) => void;
   getReference?: (el: HTMLInputElement) => void;
-  onFocus: (e: React.FocusEvent) => void;
-  onBlur: (e: React.FocusEvent) => void;
+  onFocus?: (e: React.FocusEvent) => void;
+  onBlur?: (e: React.FocusEvent) => void;
+  removeOnlyZeroString?: boolean;
 }
 
 function removeSelectedRange(value: string, selection: { start: number; end: number }) {
@@ -43,14 +38,17 @@ function removeSelectedRange(value: string, selection: { start: number; end: num
  * Also you can use this component as example to create you own components based on react-maskinput.
  */
 class NumberInput extends React.Component<IInputProps> {
-  maskInput = null;
+  applyValue = null;
   reformat = ({ value, input = '', selection }: { value: string; input?: string; selection: ISelectRange }) => {
     const newSelection: ISelectRange = {
       start: selection.start,
       end: selection.end,
     };
 
-    let data = removeSelectedRange(value.replace(/(\D)/g, text => (text === ' ' ? ' ' : '')), newSelection);
+    let data = removeSelectedRange(
+      value.replace(/(\D)/g, (text) => (text === ' ' ? ' ' : '')),
+      newSelection
+    );
     const inputValue = input.replace(/\D/g, '');
     const oldLength = data.length;
 
@@ -58,7 +56,7 @@ class NumberInput extends React.Component<IInputProps> {
     const spaces = data.match(/\s/g) || [];
     let oldSpacesCount = spaces.length;
     let newSpacesCount = 0;
-    data = data.replace(/\s/g, '').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, text => {
+    data = data.replace(/\s/g, '').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, (text) => {
       newSpacesCount++;
       return `${text} `;
     });
@@ -77,19 +75,28 @@ class NumberInput extends React.Component<IInputProps> {
     };
   };
 
-  handleLeadingZeros = e => {
-    this.maskInput.applyValue(e.target.value.replace(/^[0 ]+$/, '0'));
+  handleLeadingZeros = (e) => {
+    if (this.props.removeOnlyZeroString) {
+      this.applyValue(e.target.value.replace(/^[0 ]+$/, '0'));
+    } else {
+      this.applyValue(e.target.value.replace(/^[0 ]+/, '0'));
+    }
 
     this.props.onBlur && this.props.onBlur(e);
   };
 
-  getMaskInputRef = el => {
-    this.maskInput = el;
+  getCallback = (applyValue: (value: string) => void) => {
+    this.applyValue = applyValue;
   };
 
   render() {
     return (
-      <MaskInput {...this.props} reformat={this.reformat} onBlur={this.handleLeadingZeros} ref={this.getMaskInputRef} />
+      <MaskInput
+        {...this.props}
+        reformat={this.reformat}
+        onBlur={this.handleLeadingZeros}
+        getApplyValueCallback={this.getCallback}
+      />
     );
   }
 }
