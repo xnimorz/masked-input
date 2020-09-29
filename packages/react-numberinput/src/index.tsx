@@ -1,6 +1,6 @@
 import * as React from 'react';
-import MaskInput from '../../../examples/node_modules/react-maskinput/lib';
-import { IInputState, IInputValue, IMaskItem, ISelectRange } from 'input-core';
+import MaskInput from 'react-maskinput';
+import { IInputState, IInputValue, ISelectRange } from 'input-core';
 
 interface IInputProps {
   value?: string;
@@ -79,7 +79,8 @@ class NumberInput extends React.Component<IInputProps> {
     if (this.props.removeOnlyZeroString) {
       this.applyValue(e.target.value.replace(/^[0 ]+$/, '0'));
     } else {
-      this.applyValue(e.target.value.replace(/^[0 ]+/, '0'));
+      const result: string = e.target.value.replace(/^[0 ]+/, '');
+      this.applyValue(result.trim() ? result.trim() : '0');
     }
 
     this.props.onBlur && this.props.onBlur(e);
@@ -90,9 +91,10 @@ class NumberInput extends React.Component<IInputProps> {
   };
 
   render() {
+    const { removeOnlyZeroString, ...rest } = this.props;
     return (
       <MaskInput
-        {...this.props}
+        {...rest}
         reformat={this.reformat}
         onBlur={this.handleLeadingZeros}
         getApplyValueCallback={this.getCallback}

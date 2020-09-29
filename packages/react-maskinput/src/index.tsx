@@ -299,6 +299,7 @@ function MaskInput(props: IInputProps) {
     maskFormat,
     maskString,
     reformat,
+    getApplyValueCallback,
 
     /* ignore values */
     value,
