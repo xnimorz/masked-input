@@ -64,7 +64,7 @@ export const createInput = (params: IInputParams): IMaskedInput => {
   let maskedValue: string;
   let visibleValue: string;
   let mask: Array<IMaskItem>;
-  let showStartChars: boolean;
+  let showStartChars = params.showStartChars;
 
   let callbacks = [];
 

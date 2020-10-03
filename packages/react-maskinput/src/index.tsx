@@ -23,6 +23,7 @@ export interface IInputProps {
   onFocus?: (e: React.FocusEvent) => void;
   onBlur?: (e: React.FocusEvent) => void;
   getApplyValueCallback?: (fn: (value: string) => void) => void;
+  showStartChars?: boolean;
 }
 
 /**
@@ -81,7 +82,7 @@ function MaskInput(props: IInputProps) {
         maskChar: props.maskChar || defaults.maskChar,
         mask: props.mask || undefined,
         maskFormat: props.maskFormat || defaults.maskFormat,
-        showStartChars: props.showStartChars || default.showStartChars,
+        showStartChars: props.showStartChars || defaults.showStartChars,
       }),
     []
   );
@@ -89,7 +90,7 @@ function MaskInput(props: IInputProps) {
   const canSetSelection = React.useRef(false);
   const inputEl = React.useRef<HTMLInputElement>();
   const [showMask, setShowMask] = React.useState(props.alwaysShowMask || props.showMask);
-  
+
   const getSelection = React.useCallback(() => {
     input.setSelection({
       start: inputEl.current.selectionStart,

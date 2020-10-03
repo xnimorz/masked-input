@@ -38,7 +38,7 @@ export default function inputValue(params: {
     }
     bound--;
   }
-  if (showStartChars || bound !== 0 || (input && input.trim())) {
+  if (showStartChars || bound >= 0 || (input && input.trim())) {
     bound += charsCount;
   }
 

@@ -34,7 +34,7 @@ Credit card with automatic switching between visa and american express format (f
 import MaskInput from 'react-maskinput';
 const [mask, setMask] = React.useState('0000-0000-0000-0000');
 
-const onChange = e => {
+const onChange = (e) => {
   if (e.target.value.indexOf('34') === 0 || e.target.value.indexOf('37') === 0) {
     setMask('0000-000000-00000');
     return;
@@ -54,7 +54,7 @@ Date input with custom year (2 or 4 numbers):
 import MaskInput from 'react-maskinput';
 const [mask, setMask] = React.useState('00.00.0000');
 const [maskString, setMaskString] = React.useState('DD.MM.YYYY');
-const onChange = e => {
+const onChange = (e) => {
   if (parseInt(e.target.value[6], 10) > 2) {
     setMaskString('DD.MM.YY');
     setMask('00.00.00');
@@ -72,7 +72,7 @@ You can use any regular input fields, like placeholder:
 import MaskInput from 'react-maskinput';
 const [mask, setMask] = React.useState('00.00.0000');
 const [maskString, setMaskString] = React.useState('DD.MM.YYYY');
-const onChange = e => {
+const onChange = (e) => {
   if (parseInt(e.target.value[6], 10) > 2) {
     setMaskString('DD.MM.YY');
     setMask('00.00.00');
@@ -124,7 +124,7 @@ const [onValueChange, setOnValueChange] = React.useState('');
   <p>maskedValue from onValueChange is: "{onValueChange.maskedValue}"</p>
   <p>Value from onValueChange is: "{onValueChange.value}"</p>
   <MaskInput
-    onChange={e => setOnChange(e.target.value)}
+    onChange={(e) => setOnChange(e.target.value)}
     onValueChange={setOnValueChange}
     mask={'0000-0000'}
     value={onChange}
@@ -150,11 +150,19 @@ const [el, setEl] = React.useState(null);
     <code>el is: `{el && el.outerHTML}`</code>
   </p>
   <MaskInput
-    getReference={el => setEl(el)} /* Now in el is storing input HtmlElement */
+    getReference={(el) => setEl(el)} /* Now in el is storing input HtmlElement */
     alwaysShowMask
     size={20}
     maskChar="_"
     mask="0000-0000-0000"
   />
 </div>;
+```
+
+By default, starting hardcoded chars will be hidden. Use `showStartChars` prop to change the behavior:
+
+```js
+import MaskInput from 'react-maskinput';
+
+<MaskInput showStartChars={false} mask="+7 (000) 000 00-00" size={26} />;
 ```

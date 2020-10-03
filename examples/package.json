@@ -11,12 +11,12 @@
   "author": "Nik Mostovoy (nik.mostovoy@gmail.com)",
   "license": "MIT",
   "dependencies": {
-    "input-core": "^2.0.1",
+    "input-core": "^2.1.0",
     "mask-input": "^1.0.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
-    "react-maskinput": "3.1.0",
-    "react-numberinput": "3.0.0",
+    "react-maskinput": "3.2.0",
+    "react-numberinput": "3.2.0",
     "react-styleguidist": "^9.1.16"
   },
   "devDependencies": {
