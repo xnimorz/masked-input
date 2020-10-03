@@ -81,6 +81,7 @@ function MaskInput(props: IInputProps) {
         maskChar: props.maskChar || defaults.maskChar,
         mask: props.mask || undefined,
         maskFormat: props.maskFormat || defaults.maskFormat,
+        showStartChars: props.showStartChars || default.showStartChars,
       }),
     []
   );
@@ -88,7 +89,7 @@ function MaskInput(props: IInputProps) {
   const canSetSelection = React.useRef(false);
   const inputEl = React.useRef<HTMLInputElement>();
   const [showMask, setShowMask] = React.useState(props.alwaysShowMask || props.showMask);
-
+  
   const getSelection = React.useCallback(() => {
     input.setSelection({
       start: inputEl.current.selectionStart,

@@ -18,7 +18,7 @@ export function buildInputStrings(
   let inputValuesApplied = 0;
 
   function processMaskPartAsChar(maskPart: IMaskItem, pastedValuesStack: string, item: IInputValue) {
-    // if user inputs value, we check it, but we don't go through all stack
+    // if user inputs value, we check it, but we don't go through whole stack
     if (pastedValuesStack && pastedValuesStack[0] === maskPart.char) {
       pastedIndex++;
     } else {

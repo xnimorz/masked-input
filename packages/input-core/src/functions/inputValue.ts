@@ -11,8 +11,9 @@ export default function inputValue(params: {
   mask: Array<IMaskItem>;
   maskChar?: string;
   maskString?: string;
+  showStartChars?: boolean;
 }): IInputState {
-  const { data, input = '', selection, mask, maskChar, maskString } = params;
+  const { data, input = '', selection, mask, maskChar, maskString, showStartChars } = params;
 
   const { value, maskedValue, inputValuesApplied } = buildInputStrings(
     data,
@@ -37,7 +38,9 @@ export default function inputValue(params: {
     }
     bound--;
   }
-  bound += charsCount;
+  if (showStartChars || bound !== 0 || (input && input.trim())) {
+    bound += charsCount;
+  }
 
   let visibleValue = '';
   for (let i = 0; i <= bound; i++) {

@@ -12,6 +12,7 @@ export const defaults: {
   maskChar: string;
   showMask: boolean;
   removeSelectedRange: Function;
+  showStartChars: boolean;
 } = {
   maskFormat: [
     {
@@ -30,6 +31,7 @@ export const defaults: {
   maskChar: '',
   showMask: false,
   removeSelectedRange,
+  showStartChars: false,
 };
 
 export const createInput = (params: IInputParams): IMaskedInput => {
@@ -62,6 +64,7 @@ export const createInput = (params: IInputParams): IMaskedInput => {
   let maskedValue: string;
   let visibleValue: string;
   let mask: Array<IMaskItem>;
+  let showStartChars: boolean;
 
   let callbacks = [];
 
@@ -72,6 +75,10 @@ export const createInput = (params: IInputParams): IMaskedInput => {
 
     unsubscribe(callback) {
       callbacks = callbacks.filter((item) => item !== callback);
+    },
+
+    setShowStartChars(show: boolean) {
+      showStartChars = show;
     },
 
     setMaskFormat(maskFormat: Array<IMaskItem>) {
@@ -99,7 +106,7 @@ export const createInput = (params: IInputParams): IMaskedInput => {
             dataList.push({ char: data[i], type: CharTypes.USER });
           }
         }
-        result = inputValue({ data: dataList, selection, mask, maskChar, maskString });
+        result = inputValue({ data: dataList, selection, mask, maskChar, maskString, showStartChars });
       }
 
       applyChanges(result);
@@ -192,7 +199,7 @@ export const createInput = (params: IInputParams): IMaskedInput => {
       } else {
         const tmpValue = removeSelectedRange({ value: value as IInputValue[], selection, maskChar, maskString });
         selection.end = selection.start;
-        result = inputValue({ data: tmpValue, input, selection, mask, maskChar, maskString });
+        result = inputValue({ data: tmpValue, input, selection, mask, maskChar, maskString, showStartChars });
       }
 
       applyChanges(result);

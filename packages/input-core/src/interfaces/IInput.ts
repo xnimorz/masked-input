@@ -9,6 +9,7 @@ export interface IInputParams {
   maskFormat?: Array<IMaskItem>;
   maskString?: string;
   reformat?: (params: { value: Array<IInputValue> | string; input?: string; selection: ISelectRange }) => IInputState;
+  showStartChars?: boolean;
 }
 
 export interface IInputValue {
