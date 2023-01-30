@@ -7,8 +7,7 @@ const KEYBOARD = {
   DELETE: 46,
 };
 
-export interface IInputProps {
-  value?: string;
+export interface IInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask?: string;
   maskChar?: string;
   maskFormat?: Array<IMaskItem>;
@@ -108,7 +107,6 @@ function MaskInput(props: IInputProps) {
     const raf =
       window.requestAnimationFrame ||
       window.webkitRequestAnimationFrame ||
-      // @ts-ignore
       window.mozRequestAnimationFrame ||
       ((fn) => setTimeout(fn, 0));
     raf(() => inputEl.current.setSelectionRange(selection.start, selection.end));
