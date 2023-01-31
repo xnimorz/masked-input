@@ -1,6 +1,6 @@
 {
   "name": "react-maskinput",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "React mask input component. Allow to input formatted values with fixed length or apply custom formtatting function, to format values with any length",
   "main": "./lib",
   "scripts": {
@@ -25,7 +25,7 @@
     "date",
     "react-component"
   ],
-  "author": "Nik Mostovoy <nik.mostovoy@gmail.com> (http://xnim.ru)",
+  "author": "Nik Mostovoy <nik.mostovoy@gmail.com> (https://xnim.me)",
   "license": "MIT",
   "peerDependencies": {
     "react": ">=16.8.0"

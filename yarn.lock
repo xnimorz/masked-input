@@ -9035,6 +9035,13 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-maskinput@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-maskinput/-/react-maskinput-3.2.0.tgz#0c56cd12c450645054da159d8908b014993e8156"
+  integrity sha512-4JHk1ylfZ3fMPvh50PZZLy9AjRIhQ9UHH/7CgMk+HkDKO1BpIM2/vJefOsKn0HA7hHxUe/Sf3DPkwIh9Hh7Ukg==
+  dependencies:
+    input-core "^2.1.0"
+
 react-simple-code-editor@^0.9.7:
   version "0.9.15"
   resolved "https://registry.yarnpkg.com/react-simple-code-editor/-/react-simple-code-editor-0.9.15.tgz#59e3583832e9e98992d3674b2d7673b4cd1c5709"

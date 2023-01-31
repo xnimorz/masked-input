@@ -75,6 +75,7 @@ function MaskInput(props: IInputProps) {
   const input = React.useMemo<IMaskedInput>(
     () =>
       createInput({
+        // @ts-ignore
         value: props.value || props.defaultValue || '',
         reformat: props.reformat,
         maskString: props.maskString,
@@ -164,6 +165,7 @@ function MaskInput(props: IInputProps) {
 
   React.useEffect(() => {
     if (!firstRender.current) {
+      // @ts-ignore
       input.setValue(props.value);
     }
   }, [props.value]);

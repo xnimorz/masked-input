@@ -16,7 +16,7 @@
     "credit-card",
     "phone"
   ],
-  "author": "Nik Mostovoy <nik.mostovoy@gmail.com> (http://xnim.ru)",
+  "author": "Nik Mostovoy <nik.mostovoy@gmail.com> (https://xnim.me)",
   "license": "MIT",
   "workspaces": [
     "packages/*",
