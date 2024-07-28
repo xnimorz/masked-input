@@ -1,5 +1,9 @@
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 
+# Looking for maintainers
+
+Unfortunately, The author don't have enough time to look after this particular project. If you are willing to support it, please, write @xnimorz to talk about!
+
 ## Mask input with simple API and rich customization.
 
 You often have to create input for a credit card, phone number, birthday, etc. Each of this usecases requires to input value with some formatting (for example `0000-0000-000-0000` for credit card).
